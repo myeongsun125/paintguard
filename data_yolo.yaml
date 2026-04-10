@@ -1,0 +1,15 @@
+# Track A - YOLOv8 학습용 (자동 생성, Windows 절대경로)
+path: C:/Users/user/Desktop/PROJ2/track_a_images
+train: images/train
+val: images/val
+
+nc: 8
+names:
+  0: scratch
+  1: dent
+  2: paint_bubble
+  3: paint_drip
+  4: dust
+  5: orange_peel
+  6: crack
+  7: gap_fault
