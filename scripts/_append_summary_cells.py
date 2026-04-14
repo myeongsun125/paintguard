@@ -14,9 +14,12 @@ except Exception:
     pass
 
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config.paths import PROJECT_ROOT, NOTEBOOKS_DIR
 import nbformat
 
-NB = Path("C:/Users/user/Desktop/PROJ2/model_profile_mapping.ipynb")
+NB = NOTEBOOKS_DIR / "model_profile_mapping.ipynb"
 
 nb = nbformat.read(NB, as_version=4)
 before_count = len(nb.cells)
@@ -157,7 +160,7 @@ fig.suptitle("PaintGuard 프로젝트 최종 성과 요약",
              fontsize=16, fontweight="bold", y=1.00)
 plt.tight_layout()
 
-OUT_PNG = r"C:/Users/user/Desktop/PROJ2/paintguard_final_summary.png"
+OUT_PNG = str(PROJECT_ROOT / "paintguard_final_summary.png")
 plt.savefig(OUT_PNG, dpi=150, bbox_inches="tight", facecolor="white")
 plt.show()
 print(f"Saved: {OUT_PNG}")

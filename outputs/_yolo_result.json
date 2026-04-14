@@ -1,0 +1,252 @@
+{
+  "run_dir": "C:\\Users\\user\\Desktop\\PROJ2\\yolo_runs\\paintguard_v1",
+  "architecture": "YOLOv8n (COCO pretrained)",
+  "train_images": 800,
+  "val_images": 200,
+  "train_empty_labels": 133,
+  "val_empty_labels": 36,
+  "train_bbox_total": 1044,
+  "val_bbox_total": 240,
+  "epochs_completed": 17,
+  "overall": {
+    "mAP_0.5": 0.9931,
+    "mAP_0.5:0.95": 0.8111,
+    "precision": 0.9628,
+    "recall": 0.9889
+  },
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_name": "scratch",
+      "한글명": "스크래치",
+      "심각도": "MINOR",
+      "val_bbox": 65,
+      "Precision": 0.9441,
+      "Recall": 1.0,
+      "mAP@0.5": 0.9936,
+      "mAP@0.5:0.95": 0.8739
+    },
+    {
+      "class_id": 1,
+      "class_name": "dent",
+      "한글명": "덴트",
+      "심각도": "MAJOR",
+      "val_bbox": 48,
+      "Precision": 0.9876,
+      "Recall": 1.0,
+      "mAP@0.5": 0.995,
+      "mAP@0.5:0.95": 0.9732
+    },
+    {
+      "class_id": 2,
+      "class_name": "paint_bubble",
+      "한글명": "도장기포",
+      "심각도": "MINOR",
+      "val_bbox": 31,
+      "Precision": 0.9748,
+      "Recall": 1.0,
+      "mAP@0.5": 0.995,
+      "mAP@0.5:0.95": 0.8898
+    },
+    {
+      "class_id": 3,
+      "class_name": "paint_drip",
+      "한글명": "도장흘림",
+      "심각도": "MINOR",
+      "val_bbox": 14,
+      "Precision": 0.9575,
+      "Recall": 1.0,
+      "mAP@0.5": 0.995,
+      "mAP@0.5:0.95": 0.7408
+    },
+    {
+      "class_id": 4,
+      "class_name": "dust",
+      "한글명": "이물질",
+      "심각도": "MINOR",
+      "val_bbox": 33,
+      "Precision": 1.0,
+      "Recall": 0.981,
+      "mAP@0.5": 0.995,
+      "mAP@0.5:0.95": 0.808
+    },
+    {
+      "class_id": 5,
+      "class_name": "orange_peel",
+      "한글명": "오렌지필",
+      "심각도": "MINOR",
+      "val_bbox": 23,
+      "Precision": 1.0,
+      "Recall": 0.9778,
+      "mAP@0.5": 0.995,
+      "mAP@0.5:0.95": 0.8573
+    },
+    {
+      "class_id": 6,
+      "class_name": "crack",
+      "한글명": "크랙",
+      "심각도": "CRITICAL",
+      "val_bbox": 5,
+      "Precision": 0.9023,
+      "Recall": 1.0,
+      "mAP@0.5": 0.995,
+      "mAP@0.5:0.95": 0.7765
+    },
+    {
+      "class_id": 7,
+      "class_name": "gap_fault",
+      "한글명": "Gap불량",
+      "심각도": "CRITICAL",
+      "val_bbox": 21,
+      "Precision": 0.9358,
+      "Recall": 0.9524,
+      "mAP@0.5": 0.9815,
+      "mAP@0.5:0.95": 0.5695
+    }
+  ],
+  "best_class": {
+    "class_id": 1,
+    "name_kor": "덴트",
+    "mAP@0.5": 0.995
+  },
+  "worst_class": {
+    "class_id": 7,
+    "name_kor": "Gap불량",
+    "mAP@0.5": 0.9815,
+    "val_bbox": 21
+  },
+  "val_inference": {
+    "csv_path": "C:\\Users\\user\\Desktop\\PROJ2\\yolo_inference_results.csv",
+    "rows": 280,
+    "images_with_detections": 163,
+    "total_detections": 243
+  },
+  "zone_comparison": [
+    {
+      "index": "FF+RF",
+      "YOLO 탐지 비율": 0.1523,
+      "정형 DB 비율": 0.1665,
+      "차이(YOLO−정형)": -0.0142
+    },
+    {
+      "index": "ROCKER",
+      "YOLO 탐지 비율": 0.1481,
+      "정형 DB 비율": 0.0832,
+      "차이(YOLO−정형)": 0.065
+    },
+    {
+      "index": "BUMPER_F+R",
+      "YOLO 탐지 비율": 0.144,
+      "정형 DB 비율": 0.167,
+      "차이(YOLO−정형)": -0.023
+    },
+    {
+      "index": "TRUNK",
+      "YOLO 탐지 비율": 0.1358,
+      "정형 DB 비율": 0.0835,
+      "차이(YOLO−정형)": 0.0523
+    },
+    {
+      "index": "HOOD",
+      "YOLO 탐지 비율": 0.1317,
+      "정형 DB 비율": 0.0829,
+      "차이(YOLO−정형)": 0.0487
+    },
+    {
+      "index": "RD",
+      "YOLO 탐지 비율": 0.1111,
+      "정형 DB 비율": 0.0829,
+      "차이(YOLO−정형)": 0.0282
+    },
+    {
+      "index": "FD",
+      "YOLO 탐지 비율": 0.0905,
+      "정형 DB 비율": 0.083,
+      "차이(YOLO−정형)": 0.0075
+    },
+    {
+      "index": "ROOF",
+      "YOLO 탐지 비율": 0.0864,
+      "정형 DB 비율": 0.0839,
+      "차이(YOLO−정형)": 0.0026
+    },
+    {
+      "index": "QTR_L",
+      "YOLO 탐지 비율": 0.0,
+      "정형 DB 비율": 0.0836,
+      "차이(YOLO−정형)": -0.0836
+    },
+    {
+      "index": "QTR_R",
+      "YOLO 탐지 비율": 0.0,
+      "정형 DB 비율": 0.0835,
+      "차이(YOLO−정형)": -0.0835
+    }
+  ],
+  "type_comparison": [
+    {
+      "defect_type_code": "SCR",
+      "YOLO 탐지 비율": 0.2757,
+      "정형 DB 비율": 0.2483,
+      "차이(YOLO−정형)": 0.0274
+    },
+    {
+      "defect_type_code": "DNT",
+      "YOLO 탐지 비율": 0.1975,
+      "정형 DB 비율": 0.1497,
+      "차이(YOLO−정형)": 0.0478
+    },
+    {
+      "defect_type_code": "DST",
+      "YOLO 탐지 비율": 0.1317,
+      "정형 DB 비율": 0.1003,
+      "차이(YOLO−정형)": 0.0313
+    },
+    {
+      "defect_type_code": "PBB",
+      "YOLO 탐지 비율": 0.1276,
+      "정형 DB 비율": 0.1213,
+      "차이(YOLO−정형)": 0.0062
+    },
+    {
+      "defect_type_code": "GAP",
+      "YOLO 탐지 비율": 0.0988,
+      "정형 DB 비율": 0.0796,
+      "차이(YOLO−정형)": 0.0192
+    },
+    {
+      "defect_type_code": "ORG",
+      "YOLO 탐지 비율": 0.0905,
+      "정형 DB 비율": 0.0806,
+      "차이(YOLO−정형)": 0.0099
+    },
+    {
+      "defect_type_code": "PDR",
+      "YOLO 탐지 비율": 0.0576,
+      "정형 DB 비율": 0.1001,
+      "차이(YOLO−정형)": -0.0425
+    },
+    {
+      "defect_type_code": "CRK",
+      "YOLO 탐지 비율": 0.0206,
+      "정형 DB 비율": 0.04,
+      "차이(YOLO−정형)": -0.0195
+    },
+    {
+      "defect_type_code": "CLP",
+      "YOLO 탐지 비율": 0.0,
+      "정형 DB 비율": 0.0497,
+      "차이(YOLO−정형)": -0.0497
+    },
+    {
+      "defect_type_code": "WLD",
+      "YOLO 탐지 비율": 0.0,
+      "정형 DB 비율": 0.0303,
+      "차이(YOLO−정형)": -0.0303
+    }
+  ],
+  "missing_defect_types_in_images": [
+    "CLP",
+    "WLD"
+  ]
+}

@@ -10,20 +10,23 @@ try:
 except Exception:
     pass
 
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config.paths import PROJECT_ROOT, MODELS_DIR, YOLO_RUNS_DIR
 from ultralytics import YOLO
 import time
 
-model = YOLO('C:/Users/user/Desktop/PROJ2/yolo11s.pt')
+model = YOLO(str(MODELS_DIR / 'yolo11s.pt'))
 
 start = time.time()
 
 results = model.train(
-    data='C:/Users/user/Desktop/PROJ2/data_yolo.yaml',
+    data=str(PROJECT_ROOT / 'data_yolo.yaml'),
     epochs=20,
     imgsz=640,
     batch=16,
     patience=8,
-    project='C:/Users/user/Desktop/PROJ2/yolo_runs',
+    project=str(YOLO_RUNS_DIR),
     name='paintguard_v11s',
     exist_ok=True,
     optimizer='AdamW',
