@@ -22,16 +22,17 @@ import shutil
 import time
 from pathlib import Path
 from collections import Counter, defaultdict
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config.paths import PROJECT_ROOT, OUTPUTS_DIR, TRACK_IMG_DIR, YOLO_RUNS_DIR, MODELS_DIR
 
 # ---------------- 상수 ----------------
-PROJ = Path("C:/Users/user/Desktop/PROJ2")
-SRC_TRAIN = PROJ / "track_a_images" / "images" / "train"
-SRC_VAL   = PROJ / "track_a_images" / "images" / "val"
-DST_ROOT  = PROJ / "color_cls_dataset"
-RUN_PROJ  = PROJ / "yolo_runs"
+SRC_TRAIN = TRACK_IMG_DIR / "images" / "train"
+SRC_VAL   = TRACK_IMG_DIR / "images" / "val"
+DST_ROOT  = PROJECT_ROOT / "color_cls_dataset"
+RUN_PROJ  = YOLO_RUNS_DIR
 RUN_NAME  = "paintguard_color_cls"
 RUN_DIR   = RUN_PROJ / RUN_NAME
-RESULT_JSON = PROJ / "_color_cls_result.json"
+RESULT_JSON = OUTPUTS_DIR / "_color_cls_result.json"
 
 # 9개 색상 (green 제외)
 COLOR_CLASSES = [
@@ -131,7 +132,7 @@ def train_model():
 
     from ultralytics import YOLO
 
-    model = YOLO("yolo11s-cls.pt")  # classification pretrained (auto-download)
+    model = YOLO(str(MODELS_DIR / "yolo11s-cls.pt"))  # classification pretrained
 
     start = time.time()
 

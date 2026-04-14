@@ -1,0 +1,61 @@
+{
+  "architecture": "YOLOv11s-cls",
+  "classes": 9,
+  "class_names": [
+    "black",
+    "white",
+    "pearl_white",
+    "silver",
+    "red",
+    "bronze",
+    "gray",
+    "blue",
+    "navy"
+  ],
+  "epochs_completed": 19,
+  "train_time_sec": 686.0,
+  "train_time_min": 11.43,
+  "top1_accuracy": 1.0,
+  "top5_accuracy": 1.0,
+  "per_class_accuracy": {
+    "black": 1.0,
+    "white": 1.0,
+    "pearl_white": 1.0,
+    "silver": 1.0,
+    "red": 1.0,
+    "bronze": 1.0,
+    "gray": 1.0,
+    "blue": 1.0,
+    "navy": 1.0
+  },
+  "dataset_counts": {
+    "train": {
+      "black": 79,
+      "white": 89,
+      "pearl_white": 93,
+      "silver": 82,
+      "red": 85,
+      "bronze": 73,
+      "gray": 81,
+      "blue": 79,
+      "navy": 67
+    },
+    "val": {
+      "black": 16,
+      "white": 16,
+      "pearl_white": 27,
+      "silver": 21,
+      "red": 23,
+      "bronze": 24,
+      "gray": 22,
+      "blue": 24,
+      "navy": 11
+    },
+    "train_total": 728,
+    "val_total": 184,
+    "skipped_train": 72,
+    "skipped_val": 16
+  },
+  "best_pt_path": "C:/Users/user/Desktop/PROJ2/yolo_runs/paintguard_color_cls/weights/best.pt",
+  "run_dir": "C:/Users/user/Desktop/PROJ2/yolo_runs/paintguard_color_cls"
+}

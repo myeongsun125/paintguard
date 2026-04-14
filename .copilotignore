@@ -1,0 +1,8 @@
+# .copilotignore
+track_a_images/
+runs/
+yolo_runs/
+mes_2025/
+*.pt
+*.jpg
+*.png

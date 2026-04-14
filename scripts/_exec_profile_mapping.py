@@ -10,10 +10,13 @@ except Exception:
     pass
 
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config.paths import NOTEBOOKS_DIR
 import nbformat
 from nbclient import NotebookClient
 
-NB = Path("C:/Users/user/Desktop/PROJ2/model_profile_mapping.ipynb")
+NB = NOTEBOOKS_DIR / "model_profile_mapping.ipynb"
 
 nb = nbformat.read(NB, as_version=4)
 client = NotebookClient(

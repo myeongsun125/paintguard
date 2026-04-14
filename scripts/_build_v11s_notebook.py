@@ -5,8 +5,11 @@ model_yolo_v11s_detection.ipynb 생성 스크립트.
 """
 import json
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config.paths import PROJECT_ROOT, NOTEBOOKS_DIR
 
-NB_PATH = Path("C:/Users/user/Desktop/PROJ2/model_yolo_v11s_detection.ipynb")
+NB_PATH = NOTEBOOKS_DIR / "model_yolo_v11s_detection.ipynb"
 
 
 def md(source: str) -> dict:
@@ -73,7 +76,7 @@ warnings.filterwarnings('ignore')
 pd.set_option('display.max_columns', 50)
 pd.set_option('display.width', 200)
 
-PROJECT_DIR = Path('C:/Users/user/Desktop/PROJ2')
+PROJECT_DIR = PROJECT_ROOT
 RUN_DIR = PROJECT_DIR / 'yolo_runs' / 'paintguard_v11s'
 IMG_DIR = PROJECT_DIR / 'track_a_images' / 'images'
 LBL_DIR = PROJECT_DIR / 'track_a_images' / 'labels'
