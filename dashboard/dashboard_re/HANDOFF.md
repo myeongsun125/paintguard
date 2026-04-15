@@ -41,6 +41,10 @@ s3://project2-argos-i-376715672571-ap-northeast-2-an/
     daily/all.json          ← 생산계획 전체 (날짜 컬럼 미탐지로 단일 파일)
   work_orders/
     {YYYY-MM-DD}.json       ← 날짜별 작업지시 (2025-02-01 ~ 2025-12-31)
+  defects/
+    images/{stem}.jpg       ← val 이미지 200장
+    meta/{stem}.json        ← 결함 메타 (bbox + risk_score + detections)
+    list.json               ← 전체 결함 리스트 (리스크 높은 순 정렬)
 ```
 
 ### 주요 JSON 스키마
@@ -59,6 +63,50 @@ s3://project2-argos-i-376715672571-ap-northeast-2-an/
   "WLD": { "process": "용접", "name_kr": "용접불량" },
   "OTH": { "process": "기타", "name_kr": "기타" }
 }
+```
+
+**defects/meta/{stem}.json**
+```json
+{
+  "id": "bumper_black_000889",
+  "image_file": "bumper_black_000889.jpg",
+  "zone": "bumper",
+  "color": "black",
+  "image_id": "000889",
+  "has_defect": true,
+  "defect_count": 1,
+  "max_risk_score": 96,
+  "risk_level": "CRITICAL",
+  "detections": [
+    {
+      "class_id": 1,
+      "class_name": "dent",
+      "defect_type_code": "DNT",
+      "severity": "MAJOR",
+      "conf": 0.9455,
+      "bbox": { "x1": 0.343, "y1": 0.7467, "x2": 0.4216, "y2": 0.8881, "w_norm": 0.0785, "h_norm": 0.1414, "area_norm": 0.011102 },
+      "risk_score": 96,
+      "risk_level": "CRITICAL"
+    }
+  ]
+}
+```
+
+**defects/list.json**
+```json
+[
+  {
+    "id": "bumper_black_000889",
+    "image_file": "bumper_black_000889.jpg",
+    "zone": "bumper",
+    "color": "black",
+    "has_defect": true,
+    "defect_count": 1,
+    "risk_level": "CRITICAL",
+    "max_risk_score": 96,
+    "defect_types": ["DNT"]
+  }
+]
 ```
 
 ---
