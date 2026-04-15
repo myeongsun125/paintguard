@@ -44,6 +44,8 @@ jobs:
       # ─────────────────────────────────────────
       - name: Build
         working-directory: dashboard/dashboard_re
+        env:
+          VITE_DEV_BYPASS: "true"
         run: pnpm build
 
       # ─────────────────────────────────────────
