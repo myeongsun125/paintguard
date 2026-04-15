@@ -47,7 +47,31 @@ jobs:
         run: pnpm build
 
       # ─────────────────────────────────────────
-      # 6. SSH 키 설정
+      # 6. AWS CLI 설정
+      # ─────────────────────────────────────────
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      # ─────────────────────────────────────────
+      # 7. 현재 러너 IP를 보안 그룹에 추가
+      # ─────────────────────────────────────────
+      - name: Add runner IP to security group
+        run: |
+          RUNNER_IP=$(curl -s https://checkip.amazonaws.com)
+          echo "Runner IP: $RUNNER_IP"
+          echo "RUNNER_IP=$RUNNER_IP" >> $GITHUB_ENV
+          aws ec2 authorize-security-group-ingress \
+            --group-id sg-0fbc7c85c795683fc \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${RUNNER_IP}/32
+
+      # ─────────────────────────────────────────
+      # 8. SSH 키 설정
       # ─────────────────────────────────────────
       - name: Setup SSH key
         run: |
@@ -57,7 +81,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       # ─────────────────────────────────────────
-      # 7. 프론트엔드 배포 (정적 파일)
+      # 9. 프론트엔드 배포 (정적 파일)
       # ─────────────────────────────────────────
       - name: Deploy frontend
         working-directory: dashboard/dashboard_re
@@ -68,7 +92,7 @@ jobs:
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ secrets.FRONTEND_PATH }}/
 
       # ─────────────────────────────────────────
-      # 8. 백엔드 배포 (서버 코드)
+      # 10. 백엔드 배포 (서버 코드)
       # ─────────────────────────────────────────
       - name: Deploy backend
         working-directory: dashboard/dashboard_re
@@ -79,7 +103,7 @@ jobs:
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ secrets.BACKEND_PATH }}/
 
       # ─────────────────────────────────────────
-      # 9. 환경변수 파일 + PM2 재시작
+      # 11. PM2 재시작
       # ─────────────────────────────────────────
       - name: Restart PM2
         run: |
@@ -91,3 +115,15 @@ jobs:
                   --name paintguard-api \
                   --env-file /etc/paintguard/.env \
               && pm2 save"
+
+      # ─────────────────────────────────────────
+      # 12. 러너 IP를 보안 그룹에서 제거 (항상 실행)
+      # ─────────────────────────────────────────
+      - name: Remove runner IP from security group
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id sg-0fbc7c85c795683fc \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ env.RUNNER_IP }}/32
