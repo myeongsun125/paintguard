@@ -109,11 +109,11 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-            "pm2 describe paintguard-api > /dev/null 2>&1 \
+            "export \$(grep -v '^#' /etc/paintguard/.env | xargs) && \
+              pm2 describe paintguard-api > /dev/null 2>&1 \
               && pm2 restart paintguard-api \
               || pm2 start ${{ secrets.BACKEND_PATH }}/index.js \
                   --name paintguard-api \
-                  --env-file /etc/paintguard/.env \
               && pm2 save"
 
       # ─────────────────────────────────────────
