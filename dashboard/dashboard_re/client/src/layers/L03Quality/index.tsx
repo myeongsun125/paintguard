@@ -1,7 +1,7 @@
-import QualityPage from "@/pages/QualityPage";
 import { Bar, BarChart, CartesianGrid, Cell, Line, ComposedChart, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList } from "recharts";
 import { AlertTriangle, CircleCheck, CircleSlash, ShieldAlert } from "lucide-react";
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
 
 const shiftData = [
   { shift: "A조", rate: 4.12, note: "06~13시" },
@@ -47,11 +47,53 @@ const riskDonut = [
 ];
 
 const sampleDefects = [
-  { id: "trunk_silver_000878", zone: "TRUNK", color: "silver", type: "CRK", typeKr: "크랙", conf: 0.893, risk: 66.19, grade: "CRITICAL", severity: "CRITICAL", process: "건조", action: "즉시 라인 정지 / 전수 재검사", history: "TRUNK+CRK 조합은 최근 30일간 C조에서 72% 집중" },
-  { id: "fender_bronze_000840", zone: "FF", color: "bronze", type: "GAP", typeKr: "Gap불량", conf: 0.774, risk: 61.83, grade: "CRITICAL", severity: "CRITICAL", process: "조립", action: "용접 단차 재검사" , history: "FF+GAP은 ULN UL5 라인에서 월 평균 120건" },
-  { id: "rocker_bronze_000952", zone: "ROCKER", color: "bronze", type: "DNT", typeKr: "덴트", conf: 0.901, risk: 51.28, grade: "HIGH", severity: "MAJOR", process: "차체이송/프레스", action: "도장 직전 범퍼 정렬 확인", history: "ROCKER+DNT는 A조 06시 스파이크 동반" },
-  { id: "front_door_navy_000818", zone: "FD", color: "navy", type: "DST", typeKr: "이물질", conf: 0.97, risk: 24.75, grade: "LOW", severity: "MINOR", process: "상도", action: "정기 모니터링 유지", history: "FD+DST는 전체 평균 수준" },
+  { id: "trunk_silver_000878", zone: "TRUNK", color: "silver", type: "CRK", typeKr: "크랙", conf: 0.893, risk: 66.19, grade: "CRITICAL", severity: "CRITICAL", process: "건조", action: "즉시 라인 정지 / 전수 재검사", history: "TRUNK+CRK 조합은 최근 30일간 C조에서 72% 집중", imageFilename: "trunk_silver_000878.jpg" },
+  { id: "fender_bronze_000840", zone: "FF", color: "bronze", type: "GAP", typeKr: "Gap불량", conf: 0.774, risk: 61.83, grade: "CRITICAL", severity: "CRITICAL", process: "조립", action: "용접 단차 재검사", history: "FF+GAP은 ULN UL5 라인에서 월 평균 120건", imageFilename: "fender_bronze_000840.jpg" },
+  { id: "rocker_bronze_000952", zone: "ROCKER", color: "bronze", type: "DNT", typeKr: "덴트", conf: 0.901, risk: 51.28, grade: "HIGH", severity: "MAJOR", process: "차체이송/프레스", action: "도장 직전 범퍼 정렬 확인", history: "ROCKER+DNT는 A조 06시 스파이크 동반", imageFilename: "rocker_bronze_000952.jpg" },
+  { id: "front_door_navy_000818", zone: "FD", color: "navy", type: "DST", typeKr: "이물질", conf: 0.97, risk: 24.75, grade: "LOW", severity: "MINOR", process: "상도", action: "정기 모니터링 유지", history: "FD+DST는 전체 평균 수준", imageFilename: "front_door_navy_000818.jpg" },
 ];
+
+type SampleDefect = (typeof sampleDefects)[number];
+
+function DefectImage({ filename, className }: { filename: string; className?: string }) {
+  const { data: imgData } = trpc.mes.defectImageUrl.useQuery(
+    { filename },
+    { enabled: !!filename },
+  );
+  if (imgData?.url) {
+    return <img src={imgData.url} alt={filename} className={`rounded-xl object-cover ${className ?? ""}`} />;
+  }
+  return (
+    <div className={`flex items-center justify-center rounded-xl border border-white/5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-[11px] text-muted-foreground ${className ?? ""}`}>
+      [bbox 오버레이 이미지]
+    </div>
+  );
+}
+
+function DefectCard({ d, onClick }: { d: SampleDefect; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`rounded-2xl border p-3 text-left transition hover:scale-[1.02] ${
+        d.grade === "CRITICAL"
+          ? "border-rose-400/40 bg-rose-500/8 hover:border-rose-400/70"
+          : d.grade === "HIGH"
+            ? "border-amber-400/40 bg-amber-400/8 hover:border-amber-400/70"
+            : "border-border/60 bg-card/60 hover:border-primary/40"
+      }`}
+    >
+      <DefectImage filename={d.imageFilename} className="aspect-[4/3] w-full" />
+      <div className="mt-2 flex items-center justify-between">
+        <span className="font-mono text-[11px] text-muted-foreground">{d.id}.jpg</span>
+        <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
+          d.grade === "CRITICAL" ? "bg-rose-500 text-white" : d.grade === "HIGH" ? "bg-amber-400 text-black" : "bg-emerald-500/30 text-emerald-100"
+        }`}>{d.grade}</span>
+      </div>
+      <p className="mt-1 text-sm text-foreground">{d.typeKr} · {d.zone}</p>
+      <p className="text-[11px] text-muted-foreground">conf {d.conf.toFixed(2)} / risk {d.risk.toFixed(1)}</p>
+    </button>
+  );
+}
 
 function scoreParts(risk: number) {
   // simple spread for demo
@@ -187,29 +229,7 @@ export default function L03Quality() {
         </div>
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {sampleDefects.map((d) => (
-            <button
-              key={d.id}
-              onClick={() => setSelected(d)}
-              className={`rounded-2xl border p-3 text-left transition hover:scale-[1.02] ${
-                d.grade === "CRITICAL"
-                  ? "border-rose-400/40 bg-rose-500/8 hover:border-rose-400/70"
-                  : d.grade === "HIGH"
-                    ? "border-amber-400/40 bg-amber-400/8 hover:border-amber-400/70"
-                    : "border-border/60 bg-card/60 hover:border-primary/40"
-              }`}
-            >
-              <div className="flex aspect-[4/3] items-center justify-center rounded-xl border border-white/5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-[11px] text-muted-foreground">
-                [bbox 오버레이 이미지]
-              </div>
-              <div className="mt-2 flex items-center justify-between">
-                <span className="font-mono text-[11px] text-muted-foreground">{d.id}.jpg</span>
-                <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
-                  d.grade === "CRITICAL" ? "bg-rose-500 text-white" : d.grade === "HIGH" ? "bg-amber-400 text-black" : "bg-emerald-500/30 text-emerald-100"
-                }`}>{d.grade}</span>
-              </div>
-              <p className="mt-1 text-sm text-foreground">{d.typeKr} · {d.zone}</p>
-              <p className="text-[11px] text-muted-foreground">conf {d.conf.toFixed(2)} / risk {d.risk.toFixed(1)}</p>
-            </button>
+            <DefectCard key={d.id} d={d} onClick={() => setSelected(d)} />
           ))}
         </div>
       </section>
@@ -224,9 +244,7 @@ export default function L03Quality() {
             <p className="text-[10px] uppercase tracking-[0.28em] text-primary">Defect Detail</p>
             <h2 className="mt-1 text-lg font-semibold text-foreground">{selected.typeKr} ({selected.type}) · {selected.zone}</h2>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <div className="flex aspect-[4/3] items-center justify-center rounded-xl border border-white/5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-xs text-muted-foreground">
-                [원본 + bbox 오버레이 이미지 영역]
-              </div>
+              <DefectImage filename={selected.imageFilename} className="aspect-[4/3] w-full" />
               <div className="space-y-3 text-sm">
                 <div>
                   <p className="text-[11px] text-muted-foreground">Defect / Zone / 신뢰도</p>
@@ -273,8 +291,6 @@ export default function L03Quality() {
         </div>
       )}
 
-      {/* 기존 QualityPage 이식 */}
-      <QualityPage />
     </div>
   );
 }

@@ -1,14 +1,45 @@
 import { Area, AreaChart, CartesianGrid, Cell, Line, LineChart, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AlertTriangle, Flame, Gauge, Thermometer } from "lucide-react";
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
 
 type OvenStatus = "OK" | "WARN" | "CRIT";
-const ovens: { id: string; status: OvenStatus; temp: number; anomaly?: string }[] = Array.from({ length: 13 }, (_, i) => {
+type Oven = { id: string; status: OvenStatus; temp: number; anomaly?: string };
+type AlertEvent = { oven: string; zone: string; reason: string; due: string };
+
+const ovens: Oven[] = Array.from({ length: 13 }, (_, i) => {
   const id = `OVEN-${String(i + 1).padStart(2, "0")}`;
   const r = (i * 17) % 13;
   const status: OvenStatus = r < 9 ? "OK" : r < 11 ? "WARN" : "CRIT";
   return { id, status, temp: 180 + r * 3.2, anomaly: status !== "OK" ? ["HEATER", "SENSOR", "FAN", "CONVEYOR"][r % 4] : undefined };
 });
+
+function isOvenArray(v: unknown): v is Oven[] {
+  return (
+    Array.isArray(v) &&
+    v.every(
+      (x) =>
+        x !== null &&
+        typeof x === "object" &&
+        typeof (x as Oven).id === "string" &&
+        typeof (x as Oven).status === "string" &&
+        typeof (x as Oven).temp === "number"
+    )
+  );
+}
+
+function isAlertEventArray(v: unknown): v is AlertEvent[] {
+  return (
+    Array.isArray(v) &&
+    v.every(
+      (x) =>
+        x !== null &&
+        typeof x === "object" &&
+        typeof (x as AlertEvent).oven === "string" &&
+        typeof (x as AlertEvent).reason === "string"
+    )
+  );
+}
 
 const tempProfile = Array.from({ length: 24 }, (_, i) => ({
   t: `${i}:00`,
@@ -71,19 +102,45 @@ function Panel({ title, desc, children, className = "" }: { title: string; desc:
   );
 }
 
+const AnomalyTooltip = ({ active, payload }: any) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: 8, padding: "8px 12px", color: "#f1f5f9", fontSize: 13 }}>
+      <p style={{ margin: 0 }}>{payload[0].name}: {payload[0].value}건</p>
+    </div>
+  );
+};
+
 export default function L04Maintenance() {
   const [sel, setSel] = useState<string>("OVEN-01");
-  const crit = ovens.filter((o) => o.status === "CRIT").length;
-  const warn = ovens.filter((o) => o.status === "WARN").length;
+  const { data: maintenanceData } = trpc.mes.maintenanceData.useQuery();
+  const isLive = maintenanceData?.isLive === true;
+
+  const ovenList: Oven[] = isOvenArray(maintenanceData?.ovenStatus)
+    ? maintenanceData.ovenStatus
+    : ovens;
+  const alertList: AlertEvent[] = isAlertEventArray(maintenanceData?.alertEvents)
+    ? maintenanceData.alertEvents
+    : maintenanceList;
+
+  const crit = ovenList.filter((o) => o.status === "CRIT").length;
+  const warn = ovenList.filter((o) => o.status === "WARN").length;
 
   return (
     <div className="space-y-5">
-      <div className="rounded-2xl border border-amber-400/30 bg-amber-400/8 p-3 text-xs text-amber-200">
-        <span className="font-semibold">샘플 데이터</span> — L04 레이어는 건조로 센서(oven_sensor) 연결 전 단계. 수치는 시연용 목업.
+      <div
+        className={`rounded-2xl border p-3 text-xs ${
+          isLive
+            ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
+            : "border-amber-400/30 bg-amber-400/8 text-amber-200"
+        }`}
+      >
+        <span className="font-semibold">{isLive ? "S3 Live 데이터" : "샘플 데이터"}</span>
+        {!isLive && " — L04 레이어는 건조로 센서(oven_sensor) 연결 전 단계. 수치는 시연용 목업."}
       </div>
 
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-        <Kpi label="가동 중 건조로" value={`${ovens.filter((o) => o.status !== "CRIT").length}/13`} sub="정상+경고" tone="ok" Icon={Flame} />
+        <Kpi label="가동 중 건조로" value={`${ovenList.filter((o) => o.status !== "CRIT").length}/${ovenList.length}`} sub="정상+경고" tone="ok" Icon={Flame} />
         <Kpi label="금일 이상 이벤트" value={`${crit + warn}건`} sub={`HIGH ${crit} · MED ${warn}`} tone="warn" Icon={AlertTriangle} />
         <Kpi label="정비 필요 건조로" value={`${crit}대`} sub="maintenance_required='Y'" tone="crit" Icon={Gauge} />
         <Kpi label="온도 정상 비율" value="94.7%" sub="Zone 1~4 복합" tone="info" Icon={Thermometer} />
@@ -91,7 +148,7 @@ export default function L04Maintenance() {
 
       <Panel title="건조로 13개 상태" desc="색상 배지 — 클릭 시 해당 건조로 상세">
         <div className="grid gap-2 grid-cols-2 md:grid-cols-4 xl:grid-cols-7">
-          {ovens.map((o) => {
+          {ovenList.map((o) => {
             const tone = o.status === "OK" ? "border-emerald-400/30 bg-emerald-500/10" : o.status === "WARN" ? "border-amber-400/30 bg-amber-400/10" : "border-rose-400/40 bg-rose-500/15";
             const dot = o.status === "OK" ? "bg-emerald-400" : o.status === "WARN" ? "bg-amber-400" : "bg-rose-400";
             return (
@@ -152,7 +209,7 @@ export default function L04Maintenance() {
                     <Cell key={i} fill={d.color} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ background: "#0b1220", border: "1px solid rgba(148,163,184,0.25)" }} />
+                <Tooltip content={<AnomalyTooltip />} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -193,7 +250,7 @@ export default function L04Maintenance() {
             </tr>
           </thead>
           <tbody>
-            {maintenanceList.map((m, i) => (
+            {alertList.map((m, i) => (
               <tr key={i} className="border-t border-border/40 text-foreground">
                 <td className="py-2 font-mono">{m.oven}</td>
                 <td>{m.zone}</td>

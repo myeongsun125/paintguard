@@ -1,4 +1,5 @@
 import ProcessPage from "@/pages/ProcessPage";
+import { trpc } from "@/lib/trpc";
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AlertTriangle, Droplets, Sunrise } from "lucide-react";
 
@@ -22,9 +23,59 @@ const heatmapData: Record<(typeof heatShifts)[number], number[]> = {
   "C조(22시)": [0, 0, 0, 0, 0, 0, 6.02],
 };
 
+type PlantRate = { plant: string; rate: number };
+type ShiftHourMap = Record<string, number[]>;
+
+function isPlantRateArray(v: unknown): v is PlantRate[] {
+  return (
+    Array.isArray(v) &&
+    v.every(
+      (x) =>
+        x !== null &&
+        typeof x === "object" &&
+        typeof (x as PlantRate).plant === "string" &&
+        typeof (x as PlantRate).rate === "number"
+    )
+  );
+}
+
+function isShiftHourMap(v: unknown): v is ShiftHourMap {
+  if (!v || typeof v !== "object" || Array.isArray(v)) return false;
+  return Object.values(v as Record<string, unknown>).every(
+    (arr) => Array.isArray(arr) && arr.every((n) => typeof n === "number")
+  );
+}
+
 export default function L02Process() {
+  const { data: processData } = trpc.mes.processData.useQuery();
+  const isLive = processData?.isLive === true;
+
+  const plantData: PlantRate[] = isPlantRateArray(processData?.kpiDaily)
+    ? processData.kpiDaily
+    : plantFailRates;
+
+  const shiftMap: ShiftHourMap = isShiftHourMap(processData?.shiftDefectRate)
+    ? processData.shiftDefectRate
+    : heatmapData;
+
+  const shiftRows = (Object.keys(shiftMap).length ? Object.keys(shiftMap) : (heatShifts as readonly string[])) as string[];
+
+  const hasEnvBins = Array.isArray(processData?.envBins) && processData.envBins.length > 0;
+
   return (
     <div className="space-y-5">
+      <div
+        className={`rounded-2xl border p-3 text-xs ${
+          isLive
+            ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
+            : "border-amber-400/30 bg-amber-400/8 text-amber-200"
+        }`}
+      >
+        <span className="font-semibold">{isLive ? "S3 Live 데이터" : "샘플 데이터"}</span>
+        {!isLive && " — L02 레이어는 S3 집계 연결 전 단계. 수치는 시연용 목업."}
+        {isLive && hasEnvBins && " — env_bins 포함"}
+      </div>
+
       {/* 공장별 불량률 막대 */}
       <section className="rounded-[28px] border border-border/60 bg-card/85 p-5 shadow-[0_0_50px_rgba(8,15,30,0.25)]">
         <div className="mb-4 flex items-start justify-between">
@@ -36,14 +87,14 @@ export default function L02Process() {
         </div>
         <div className="h-[220px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={plantFailRates} margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
+            <BarChart data={plantData} margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" />
               <XAxis dataKey="plant" tick={{ fill: "#cbd5e1", fontSize: 12 }} />
               <YAxis domain={[3.9, 4.2]} tick={{ fill: "#cbd5e1", fontSize: 12 }} unit="%" />
               <Tooltip contentStyle={{ background: "#0b1220", border: "1px solid rgba(148,163,184,0.25)" }} />
               <Bar dataKey="rate" radius={[8, 8, 0, 0]}>
-                {plantFailRates.map((d, i) => (
-                  <Cell key={i} fill={["#10b981", "#06b6d4", "#22d3ee", "#2dd4bf"][i]} />
+                {plantData.map((_d, i) => (
+                  <Cell key={i} fill={["#10b981", "#06b6d4", "#22d3ee", "#2dd4bf"][i % 4]} />
                 ))}
                 <LabelList dataKey="rate" position="top" formatter={(v: number) => `${v.toFixed(2)}%`} fill="#e2e8f0" fontSize={12} />
               </Bar>
@@ -80,11 +131,11 @@ export default function L02Process() {
                 </tr>
               </thead>
               <tbody>
-                {heatShifts.map((s) => (
+                {shiftRows.map((s) => (
                   <tr key={s}>
                     <td className="px-2 py-1 text-foreground">{s}</td>
                     {heatHours.map((h, i) => {
-                      const v = heatmapData[s][i];
+                      const v = shiftMap[s]?.[i] ?? 0;
                       const alpha = Math.min(0.85, Math.max(0.08, v / 7));
                       const isStart = shiftStartCol(h);
                       const isC22 = s === "C조(22시)" && h === "22";

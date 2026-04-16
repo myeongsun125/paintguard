@@ -1,12 +1,14 @@
 import "dotenv/config";
 import express from "express";
+import fs from "fs";
 import { createServer } from "http";
 import net from "net";
+import path from "path";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
-import { serveStatic, setupVite } from "./vite";
+import { setupVite } from "./vite";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -47,7 +49,17 @@ async function startServer() {
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+    const STATIC_PATH =
+      process.env.STATIC_PATH ?? path.join(import.meta.dirname, "public");
+    if (!fs.existsSync(STATIC_PATH)) {
+      console.error(
+        `Could not find the build directory: ${STATIC_PATH}, make sure to build the client first`
+      );
+    }
+    app.use(express.static(STATIC_PATH));
+    app.use("*", (_req, res) => {
+      res.sendFile(path.resolve(STATIC_PATH, "index.html"));
+    });
   }
 
   const preferredPort = parseInt(process.env.PORT || "3000");

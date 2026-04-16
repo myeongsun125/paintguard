@@ -46,6 +46,7 @@ jobs:
         working-directory: dashboard/dashboard_re
         env:
           VITE_DEV_BYPASS: "true"
+          VITE_API_URL: "https://paintguard.argos-i.com/api"
         run: pnpm build
 
       # ─────────────────────────────────────────
