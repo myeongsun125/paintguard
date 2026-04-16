@@ -91,7 +91,7 @@ export default function L02Process() {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" />
               <XAxis dataKey="plant" tick={{ fill: "#cbd5e1", fontSize: 12 }} />
               <YAxis domain={[3.9, 4.2]} tick={{ fill: "#cbd5e1", fontSize: 12 }} unit="%" />
-              <Tooltip contentStyle={{ background: "#0b1220", border: "1px solid rgba(148,163,184,0.25)" }} />
+              <Tooltip contentStyle={{ background: "#1e293b", border: "1px solid #334155", color: "#f1f5f9" }} />
               <Bar dataKey="rate" radius={[8, 8, 0, 0]}>
                 {plantData.map((_d, i) => (
                   <Cell key={i} fill={["#10b981", "#06b6d4", "#22d3ee", "#2dd4bf"][i % 4]} />

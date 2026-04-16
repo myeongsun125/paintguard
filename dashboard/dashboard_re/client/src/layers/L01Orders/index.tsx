@@ -1,5 +1,7 @@
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AlertTriangle, ArrowUpRight, Gauge, Package } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import { useSimClock } from "@/lib/simulationClock";
 
 const planVsActual = Array.from({ length: 30 }, (_, i) => ({
   day: `D-${29 - i}`,
@@ -59,10 +61,26 @@ function Panel({ title, desc, children }: { title: string; desc: string; childre
 }
 
 export default function L01Orders() {
+  const { data: l01Data } = trpc.mes.l01Data.useQuery();
+  const isLive = l01Data?.isLive === true;
+
+  const simNow = useSimClock(60_000);
+  const simDate = `${simNow.getFullYear()}-${String(simNow.getMonth() + 1).padStart(2, "0")}-${String(simNow.getDate()).padStart(2, "0")}`;
+  const { data: workOrdersData } = trpc.mes.workOrders.useQuery({ date: simDate });
+  const hasWorkOrders = workOrdersData?.data != null;
+
   return (
     <div className="space-y-5">
-      <div className="rounded-2xl border border-amber-400/30 bg-amber-400/8 p-3 text-xs text-amber-200">
-        <span className="font-semibold">샘플 데이터</span> — L01 레이어는 MES 주문/생산량 소스 연결 전 단계입니다. 수치는 시연용 목업.
+      <div
+        className={`rounded-2xl border p-3 text-xs ${
+          isLive
+            ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
+            : "border-amber-400/30 bg-amber-400/8 text-amber-200"
+        }`}
+      >
+        <span className="font-semibold">{isLive ? "S3 Live 데이터" : "샘플 데이터"}</span>
+        {isLive && hasWorkOrders && ` — work_orders(${simDate}) 연결됨`}
+        {!isLive && " — L01 레이어는 MES 주문/생산량 소스 연결 전 단계입니다. 수치는 시연용 목업."}
       </div>
 
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">

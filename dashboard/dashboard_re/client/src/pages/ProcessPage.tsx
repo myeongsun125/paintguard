@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState, type ReactNode } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   Area,
   AreaChart,
@@ -279,6 +279,7 @@ export default function ProcessPage() {
   const { data, isLoading } = trpc.mes.sampleData.useQuery();
   const [uploaded, setUploaded] = useState<UploadedProcessData | null>(null);
   const [clockTick, setClockTick] = useState(0);
+  const [timedOut, setTimedOut] = useState(false);
   const [filters, setFilters] = useState<ProcessFilters>({
     startDate: "2024-01-01",
     endDate: "2024-12-31",
@@ -286,6 +287,12 @@ export default function ProcessPage() {
     lineCode: "",
     shift: "",
   });
+
+  useEffect(() => {
+    if (data) return;
+    const timer = window.setTimeout(() => setTimedOut(true), 3000);
+    return () => window.clearTimeout(timer);
+  }, [data]);
 
   const derived = useMemo(() => deriveProcessView(data, filters, uploaded), [data, filters, uploaded]);
 
@@ -329,7 +336,7 @@ export default function ProcessPage() {
   const heatmapShifts = Array.from(new Set(heatmapData.map((item: any) => String(item.shift)))) as string[];
   const heatmapLookup = new Map(heatmapData.map((item: any) => [`${item.shift}-${item.hour}`, asNumber(item.failRate)]));
 
-  if (isLoading || !data) {
+  if (isLoading && !data && !timedOut) {
     return <div className="rounded-[24px] border border-border/60 bg-card/85 p-8 text-sm text-muted-foreground">공정 데이터를 불러오는 중입니다.</div>;
   }
 

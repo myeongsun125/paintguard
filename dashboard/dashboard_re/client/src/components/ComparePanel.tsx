@@ -12,6 +12,7 @@ export default function ComparePanel({ children }: { children?: ReactNode }) {
     <AnimatePresence>
       {open && (
         <motion.aside
+          key="compare-panel"
           initial={{ x: "100%" }}
           animate={{ x: 0 }}
           exit={{ x: "100%" }}

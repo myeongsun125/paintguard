@@ -7,11 +7,15 @@ import { analyzeQualityImage, loadMesSampleData } from "./mes";
 import {
   IS_PROD,
   getDefectImageUrl,
+  getDefectMeta,
   loadAlertEvents,
   loadEnvBins,
   loadKpiDaily,
+  loadLineMonthly,
   loadOvenStatus,
   loadShiftDefectRate,
+  loadSnapshots,
+  loadWorkOrders,
 } from "./s3Loader";
 
 const imageAnalysisInput = z.object({
@@ -60,11 +64,36 @@ export const appRouter = router({
         isLive: IS_PROD,
       };
     }),
+    l01Data: publicProcedure.query(async () => {
+      const [kpi, monthly, snapshots] = await Promise.allSettled([
+        loadKpiDaily(),
+        loadLineMonthly(),
+        loadSnapshots(),
+      ]);
+      return {
+        kpiDaily: kpi.status === "fulfilled" ? kpi.value : null,
+        lineMonthly: monthly.status === "fulfilled" ? monthly.value : null,
+        snapshots: snapshots.status === "fulfilled" ? snapshots.value : null,
+        isLive: IS_PROD,
+      };
+    }),
     defectImageUrl: publicProcedure
       .input(z.object({ filename: z.string().min(1) }))
       .query(async ({ input }) => {
         const url = await getDefectImageUrl(input.filename);
         return { url };
+      }),
+    defectMeta: publicProcedure
+      .input(z.object({ filename: z.string().min(1) }))
+      .query(async ({ input }) => {
+        const meta = await getDefectMeta(input.filename);
+        return { meta };
+      }),
+    workOrders: publicProcedure
+      .input(z.object({ date: z.string().min(1) }))
+      .query(async ({ input }) => {
+        const data = await loadWorkOrders(input.date);
+        return { data, isLive: IS_PROD };
       }),
     analyzeQualityImage: publicProcedure
       .input(imageAnalysisInput)

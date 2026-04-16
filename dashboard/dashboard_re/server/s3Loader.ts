@@ -62,3 +62,16 @@ export async function loadAlertEvents() {
 export async function loadLineMonthly() {
   return getJson("aggregates/line_monthly.json");
 }
+
+export async function loadSnapshots() {
+  return getJson("snapshots/daily/all.json");
+}
+
+export async function getDefectMeta(filename: string): Promise<unknown> {
+  const stem = filename.replace(/\.[^/.]+$/, "");
+  return getJson(`defects/meta/${stem}.json`);
+}
+
+export async function loadWorkOrders(date: string) {
+  return getJson(`work_orders/${date}.json`);
+}

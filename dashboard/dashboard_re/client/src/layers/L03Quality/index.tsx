@@ -95,6 +95,37 @@ function DefectCard({ d, onClick }: { d: SampleDefect; onClick: () => void }) {
   );
 }
 
+const RiskTooltip = ({ active, payload }: any) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{ background: "#1e293b", border: "1px solid #334155", borderRadius: 8, padding: "8px 12px", color: "#f1f5f9", fontSize: 13 }}>
+      <p style={{ margin: 0 }}>{payload[0].name}: {payload[0].value}건</p>
+    </div>
+  );
+};
+
+function gradeColor(grade: string) {
+  if (grade === "CRITICAL") return "#ef4444";
+  if (grade === "HIGH") return "#f59e0b";
+  if (grade === "MEDIUM") return "#22d3ee";
+  return "#34d399";
+}
+
+function extractBbox(meta: unknown): { x: number; y: number; w: number; h: number } | null {
+  if (!meta || typeof meta !== "object") return null;
+  const o = meta as Record<string, unknown>;
+  if (typeof o.x === "number" && typeof o.y === "number" && typeof o.w === "number" && typeof o.h === "number") {
+    return { x: o.x, y: o.y, w: o.w, h: o.h };
+  }
+  if (o.bbox && typeof o.bbox === "object") {
+    const b = o.bbox as Record<string, unknown>;
+    if (typeof b.x === "number" && typeof b.y === "number" && typeof b.w === "number" && typeof b.h === "number") {
+      return { x: b.x, y: b.y, w: b.w, h: b.h };
+    }
+  }
+  return null;
+}
+
 function scoreParts(risk: number) {
   // simple spread for demo
   return [
@@ -118,6 +149,91 @@ function Kpi({ label, value, sub, tone }: { label: string; value: string; sub: s
       <p className="text-[11px] uppercase tracking-[0.25em] opacity-80">{label}</p>
       <p className="mt-2 font-mono text-3xl font-bold">{value}</p>
       <p className="mt-1 text-xs opacity-70">{sub}</p>
+    </div>
+  );
+}
+
+function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () => void }) {
+  const { data: metaData } = trpc.mes.defectMeta.useQuery(
+    { filename: defect.imageFilename },
+    { enabled: !!defect.imageFilename },
+  );
+  const bbox = extractBbox(metaData?.meta);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur" onClick={onClose}>
+      <div className="relative w-full max-w-2xl rounded-2xl border border-border/60 bg-card/95 p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute right-4 top-4 text-muted-foreground hover:text-foreground">
+          <CircleSlash className="h-5 w-5" />
+        </button>
+        <p className="text-[10px] uppercase tracking-[0.28em] text-primary">Defect Detail</p>
+        <h2 className="mt-1 text-lg font-semibold text-foreground">{defect.typeKr} ({defect.type}) · {defect.zone}</h2>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+            <DefectImage filename={defect.imageFilename} className="h-full w-full" />
+            {bbox && (
+              <div
+                className="absolute rounded-sm border-2"
+                style={{
+                  left: `${bbox.x * 100}%`,
+                  top: `${bbox.y * 100}%`,
+                  width: `${bbox.w * 100}%`,
+                  height: `${bbox.h * 100}%`,
+                  borderColor: gradeColor(defect.grade),
+                }}
+              >
+                <span
+                  className="absolute -top-5 left-0 whitespace-nowrap rounded px-1 py-0.5 text-[9px] font-bold"
+                  style={{ backgroundColor: gradeColor(defect.grade), color: "#fff" }}
+                >
+                  {defect.typeKr} {defect.conf.toFixed(2)}
+                </span>
+              </div>
+            )}
+          </div>
+          <div className="space-y-3 text-sm">
+            <div>
+              <p className="text-[11px] text-muted-foreground">Defect / Zone / 신뢰도</p>
+              <p className="font-mono text-foreground">{defect.type} / {defect.zone} / conf {defect.conf.toFixed(3)}</p>
+            </div>
+            <div>
+              <p className="text-[11px] text-muted-foreground">리스크 스코어</p>
+              <p className={`font-mono text-xl font-bold ${defect.grade === "CRITICAL" ? "text-rose-300" : defect.grade === "HIGH" ? "text-amber-300" : "text-emerald-300"}`}>
+                {defect.risk.toFixed(2)} / 100 · {defect.grade}
+              </p>
+            </div>
+            <div>
+              <p className="text-[11px] text-muted-foreground">리스크 구성</p>
+              <div className="mt-1 space-y-1.5">
+                {scoreParts(defect.risk).map((p) => (
+                  <div key={p.label} className="flex items-center gap-2 text-xs">
+                    <span className="w-16 text-muted-foreground">{p.label}</span>
+                    <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted/40">
+                      <div className="h-full rounded-full bg-primary" style={{ width: `${(p.val / p.max) * 100}%` }} />
+                    </div>
+                    <span className="w-12 font-mono text-foreground">{p.val}/{p.max}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-3 text-xs text-muted-foreground md:grid-cols-3">
+          <div className="rounded-lg border border-border/60 bg-background/30 p-3">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">유사 이력</p>
+            <p className="mt-1 leading-5">{defect.history}</p>
+          </div>
+          <div className="rounded-lg border border-border/60 bg-background/30 p-3">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">추정 원인 공정</p>
+            <p className="mt-1 font-semibold text-foreground">{defect.process}</p>
+            <p className="text-[10px]">defect_process_map.json</p>
+          </div>
+          <div className="rounded-lg border border-amber-400/30 bg-amber-400/8 p-3 text-amber-100">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-amber-300">추천 조치</p>
+            <p className="mt-1 leading-5">{defect.action}</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -204,7 +320,7 @@ export default function L03Quality() {
                     <Cell key={i} fill={d.color} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ background: "#0b1220", border: "1px solid rgba(148,163,184,0.25)" }} />
+                <Tooltip content={<RiskTooltip />} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -234,62 +350,7 @@ export default function L03Quality() {
         </div>
       </section>
 
-      {/* Modal */}
-      {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur" onClick={() => setSelected(null)}>
-          <div className="relative w-full max-w-2xl rounded-2xl border border-border/60 bg-card/95 p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setSelected(null)} className="absolute right-4 top-4 text-muted-foreground hover:text-foreground">
-              <CircleSlash className="h-5 w-5" />
-            </button>
-            <p className="text-[10px] uppercase tracking-[0.28em] text-primary">Defect Detail</p>
-            <h2 className="mt-1 text-lg font-semibold text-foreground">{selected.typeKr} ({selected.type}) · {selected.zone}</h2>
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <DefectImage filename={selected.imageFilename} className="aspect-[4/3] w-full" />
-              <div className="space-y-3 text-sm">
-                <div>
-                  <p className="text-[11px] text-muted-foreground">Defect / Zone / 신뢰도</p>
-                  <p className="font-mono text-foreground">{selected.type} / {selected.zone} / conf {selected.conf.toFixed(3)}</p>
-                </div>
-                <div>
-                  <p className="text-[11px] text-muted-foreground">리스크 스코어</p>
-                  <p className={`font-mono text-xl font-bold ${selected.grade === "CRITICAL" ? "text-rose-300" : selected.grade === "HIGH" ? "text-amber-300" : "text-emerald-300"}`}>
-                    {selected.risk.toFixed(2)} / 100 · {selected.grade}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-[11px] text-muted-foreground">리스크 구성</p>
-                  <div className="mt-1 space-y-1.5">
-                    {scoreParts(selected.risk).map((p) => (
-                      <div key={p.label} className="flex items-center gap-2 text-xs">
-                        <span className="w-16 text-muted-foreground">{p.label}</span>
-                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted/40">
-                          <div className="h-full rounded-full bg-primary" style={{ width: `${(p.val / p.max) * 100}%` }} />
-                        </div>
-                        <span className="w-12 font-mono text-foreground">{p.val}/{p.max}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4 grid gap-3 text-xs text-muted-foreground md:grid-cols-3">
-              <div className="rounded-lg border border-border/60 bg-background/30 p-3">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">유사 이력</p>
-                <p className="mt-1 leading-5">{selected.history}</p>
-              </div>
-              <div className="rounded-lg border border-border/60 bg-background/30 p-3">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">추정 원인 공정</p>
-                <p className="mt-1 font-semibold text-foreground">{selected.process}</p>
-                <p className="text-[10px]">defect_process_map.json</p>
-              </div>
-              <div className="rounded-lg border border-amber-400/30 bg-amber-400/8 p-3 text-amber-100">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-amber-300">추천 조치</p>
-                <p className="mt-1 leading-5">{selected.action}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {selected && <DefectModal defect={selected} onClose={() => setSelected(null)} />}
 
     </div>
   );
