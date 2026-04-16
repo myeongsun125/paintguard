@@ -104,26 +104,52 @@ const RiskTooltip = ({ active, payload }: any) => {
   );
 };
 
-function gradeColor(grade: string) {
-  if (grade === "CRITICAL") return "#ef4444";
-  if (grade === "HIGH") return "#f59e0b";
-  if (grade === "MEDIUM") return "#22d3ee";
+interface DetectionBbox {
+  x1: number;
+  y1: number;
+  w_norm: number;
+  h_norm: number;
+  defect_type_code: string;
+  conf: number;
+  risk_level: string;
+}
+
+function riskLevelColor(level: string) {
+  if (level === "CRITICAL") return "#ef4444";
+  if (level === "HIGH") return "#f59e0b";
+  if (level === "MEDIUM") return "#22d3ee";
   return "#34d399";
 }
 
-function extractBbox(meta: unknown): { x: number; y: number; w: number; h: number } | null {
-  if (!meta || typeof meta !== "object") return null;
+function extractBboxes(meta: unknown): DetectionBbox[] {
+  if (!meta || typeof meta !== "object") return [];
   const o = meta as Record<string, unknown>;
-  if (typeof o.x === "number" && typeof o.y === "number" && typeof o.w === "number" && typeof o.h === "number") {
-    return { x: o.x, y: o.y, w: o.w, h: o.h };
-  }
-  if (o.bbox && typeof o.bbox === "object") {
-    const b = o.bbox as Record<string, unknown>;
-    if (typeof b.x === "number" && typeof b.y === "number" && typeof b.w === "number" && typeof b.h === "number") {
-      return { x: b.x, y: b.y, w: b.w, h: b.h };
+  if (!Array.isArray(o.detections)) return [];
+
+  const results: DetectionBbox[] = [];
+  for (const det of o.detections) {
+    if (!det || typeof det !== "object") continue;
+    const d = det as Record<string, unknown>;
+    if (!d.bbox || typeof d.bbox !== "object") continue;
+    const b = d.bbox as Record<string, unknown>;
+    if (
+      typeof b.x1 === "number" &&
+      typeof b.y1 === "number" &&
+      typeof b.w_norm === "number" &&
+      typeof b.h_norm === "number"
+    ) {
+      results.push({
+        x1: b.x1,
+        y1: b.y1,
+        w_norm: b.w_norm,
+        h_norm: b.h_norm,
+        defect_type_code: typeof d.defect_type_code === "string" ? d.defect_type_code : "",
+        conf: typeof d.conf === "number" ? d.conf : 0,
+        risk_level: typeof d.risk_level === "string" ? d.risk_level : "LOW",
+      });
     }
   }
-  return null;
+  return results;
 }
 
 function scoreParts(risk: number) {
@@ -158,7 +184,7 @@ function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () =>
     { filename: defect.imageFilename },
     { enabled: !!defect.imageFilename },
   );
-  const bbox = extractBbox(metaData?.meta);
+  const bboxes = extractBboxes(metaData?.meta);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur" onClick={onClose}>
@@ -171,25 +197,26 @@ function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () =>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
             <DefectImage filename={defect.imageFilename} className="h-full w-full" />
-            {bbox && (
+            {bboxes.map((b, i) => (
               <div
+                key={i}
                 className="absolute rounded-sm border-2"
                 style={{
-                  left: `${bbox.x * 100}%`,
-                  top: `${bbox.y * 100}%`,
-                  width: `${bbox.w * 100}%`,
-                  height: `${bbox.h * 100}%`,
-                  borderColor: gradeColor(defect.grade),
+                  left: `${b.x1 * 100}%`,
+                  top: `${b.y1 * 100}%`,
+                  width: `${b.w_norm * 100}%`,
+                  height: `${b.h_norm * 100}%`,
+                  borderColor: riskLevelColor(b.risk_level),
                 }}
               >
                 <span
                   className="absolute -top-5 left-0 whitespace-nowrap rounded px-1 py-0.5 text-[9px] font-bold"
-                  style={{ backgroundColor: gradeColor(defect.grade), color: "#fff" }}
+                  style={{ backgroundColor: riskLevelColor(b.risk_level), color: "#fff" }}
                 >
-                  {defect.typeKr} {defect.conf.toFixed(2)}
+                  {b.defect_type_code} {b.conf.toFixed(2)}
                 </span>
               </div>
-            )}
+            ))}
           </div>
           <div className="space-y-3 text-sm">
             <div>
