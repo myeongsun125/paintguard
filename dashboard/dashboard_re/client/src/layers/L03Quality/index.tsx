@@ -1,7 +1,8 @@
 import { Bar, BarChart, CartesianGrid, Cell, Line, ComposedChart, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis, LabelList } from "recharts";
 import { AlertTriangle, CircleCheck, CircleSlash, ShieldAlert } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { trpc } from "@/lib/trpc";
+import { useSimClock, DEMO_START_SIM, DEMO_SPEED } from "@/lib/simulationClock";
 
 const shiftData = [
   { shift: "A조", rate: 4.12, note: "06~13시" },
@@ -54,6 +55,56 @@ const sampleDefects = [
 ];
 
 type SampleDefect = (typeof sampleDefects)[number];
+
+interface ListDefect {
+  id: string;
+  image_file: string;
+  zone: string;
+  color: string;
+  has_defect: boolean;
+  defect_count: number;
+  risk_level: string;
+  max_risk_score: number;
+  defect_types: string[];
+}
+
+function isListDefectArray(v: unknown): v is ListDefect[] {
+  return (
+    Array.isArray(v) &&
+    v.length > 0 &&
+    v.every(
+      (x) =>
+        x !== null &&
+        typeof x === "object" &&
+        typeof (x as ListDefect).id === "string" &&
+        typeof (x as ListDefect).image_file === "string",
+    )
+  );
+}
+
+function listToSample(d: ListDefect): SampleDefect {
+  const typeCode = d.defect_types[0] ?? "SCR";
+  const typeNames: Record<string, string> = {
+    SCR: "스크래치", DNT: "덴트", PBB: "도장기포", DST: "이물질",
+    PDR: "도장흘림", ORG: "오렌지필", GAP: "Gap불량", CRK: "크랙",
+    CLP: "클립마크", WLD: "용접불량",
+  };
+  return {
+    id: d.id,
+    zone: d.zone?.toUpperCase() ?? "",
+    color: d.color ?? "",
+    type: typeCode,
+    typeKr: typeNames[typeCode] ?? typeCode,
+    conf: 0,
+    risk: d.max_risk_score ?? 0,
+    grade: d.risk_level ?? "LOW",
+    severity: d.risk_level === "CRITICAL" ? "CRITICAL" : d.risk_level === "HIGH" ? "MAJOR" : "MINOR",
+    process: "",
+    action: "",
+    history: "",
+    imageFilename: d.image_file,
+  };
+}
 
 function DefectImage({ filename, className }: { filename: string; className?: string }) {
   const { data: imgData } = trpc.mes.defectImageUrl.useQuery(
@@ -186,6 +237,41 @@ function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () =>
   );
   const bboxes = extractBboxes(metaData?.meta);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [imgFit, setImgFit] = useState<{ ox: number; oy: number; sw: number; sh: number } | null>(null);
+
+  const handleImgLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    const container = containerRef.current;
+    if (!container) return;
+    const cw = container.clientWidth;
+    const ch = container.clientHeight;
+    const nw = img.naturalWidth;
+    const nh = img.naturalHeight;
+    if (!nw || !nh) return;
+
+    const imgRatio = nw / nh;
+    const ctrRatio = cw / ch;
+    let sw: number, sh: number, ox: number, oy: number;
+    if (imgRatio > ctrRatio) {
+      sw = cw;
+      sh = cw / imgRatio;
+      ox = 0;
+      oy = (ch - sh) / 2;
+    } else {
+      sh = ch;
+      sw = ch * imgRatio;
+      ox = (cw - sw) / 2;
+      oy = 0;
+    }
+    setImgFit({ ox, oy, sw, sh });
+  }, []);
+
+  const { data: imgData } = trpc.mes.defectImageUrl.useQuery(
+    { filename: defect.imageFilename },
+    { enabled: !!defect.imageFilename },
+  );
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur" onClick={onClose}>
       <div className="relative w-full max-w-2xl rounded-2xl border border-border/60 bg-card/95 p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
@@ -195,17 +281,28 @@ function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () =>
         <p className="text-[10px] uppercase tracking-[0.28em] text-primary">Defect Detail</p>
         <h2 className="mt-1 text-lg font-semibold text-foreground">{defect.typeKr} ({defect.type}) · {defect.zone}</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
-            <DefectImage filename={defect.imageFilename} className="h-full w-full" />
-            {bboxes.map((b, i) => (
+          <div ref={containerRef} className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+            {imgData?.url ? (
+              <img
+                src={imgData.url}
+                alt={defect.imageFilename}
+                onLoad={handleImgLoad}
+                className="h-full w-full rounded-xl object-contain"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center rounded-xl border border-white/5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-[11px] text-muted-foreground">
+                [bbox 오버레이 이미지]
+              </div>
+            )}
+            {imgFit && bboxes.map((b, i) => (
               <div
                 key={i}
                 className="absolute rounded-sm border-2"
                 style={{
-                  left: `${b.x1 * 100}%`,
-                  top: `${b.y1 * 100}%`,
-                  width: `${b.w_norm * 100}%`,
-                  height: `${b.h_norm * 100}%`,
+                  left: imgFit.ox + b.x1 * imgFit.sw,
+                  top: imgFit.oy + b.y1 * imgFit.sh,
+                  width: b.w_norm * imgFit.sw,
+                  height: b.h_norm * imgFit.sh,
                   borderColor: riskLevelColor(b.risk_level),
                 }}
               >
@@ -266,7 +363,29 @@ function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () =>
 }
 
 export default function L03Quality() {
-  const [selected, setSelected] = useState<(typeof sampleDefects)[number] | null>(null);
+  const [selected, setSelected] = useState<SampleDefect | null>(null);
+
+  const { data: defectListData } = trpc.mes.defectList.useQuery(undefined, { refetchInterval: 30_000 });
+  const isLive = defectListData?.isLive === true;
+
+  const simNow = useSimClock(60_000);
+  const simStartMs = new Date(DEMO_START_SIM).getTime();
+  const elapsedSimMs = (Date.now() - simStartMs / DEMO_SPEED) * DEMO_SPEED;
+  const simElapsedMinutes = Math.floor(Math.abs(elapsedSimMs) / 60_000);
+
+  const displayCards: SampleDefect[] = useMemo(() => {
+    if (isListDefectArray(defectListData?.data)) {
+      const list = defectListData.data;
+      const total = list.length;
+      const start = Math.floor(simElapsedMinutes % total);
+      const cards: SampleDefect[] = [];
+      for (let i = 0; i < 4; i++) {
+        cards.push(listToSample(list[(start + i) % total]));
+      }
+      return cards;
+    }
+    return sampleDefects;
+  }, [defectListData, simElapsedMinutes]);
 
   return (
     <div className="space-y-5">
@@ -339,25 +458,28 @@ export default function L03Quality() {
         <section className="rounded-[28px] border border-border/60 bg-card/85 p-5">
           <h3 className="text-sm font-semibold text-foreground">리스크 등급 분포 (251건)</h3>
           <p className="mt-1 text-xs text-muted-foreground">사분위수 컷오프 — CRITICAL 26 / HIGH 50 / MEDIUM 75 / LOW 100</p>
-          <div className="mt-4 h-[240px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={riskDonut} dataKey="value" nameKey="name" innerRadius={60} outerRadius={95} paddingAngle={2}>
-                  {riskDonut.map((d, i) => (
-                    <Cell key={i} fill={d.color} />
-                  ))}
-                </Pie>
-                <Tooltip content={<RiskTooltip />} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="mt-2 flex flex-wrap justify-center gap-3 text-xs">
-            {riskDonut.map((r) => (
-              <span key={r.name} className="inline-flex items-center gap-1.5">
-                <span className="inline-block h-2.5 w-2.5 rounded" style={{ background: r.color }} />
-                {r.name} {r.value}
-              </span>
-            ))}
+          <div className="mt-4 flex h-[240px] items-center">
+            <div className="h-full w-[55%]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={riskDonut} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={2}>
+                    {riskDonut.map((d, i) => (
+                      <Cell key={i} fill={d.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<RiskTooltip />} wrapperStyle={{ zIndex: 50, pointerEvents: "none" }} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex w-[45%] flex-col gap-2.5 pl-2 text-xs">
+              {riskDonut.map((r) => (
+                <span key={r.name} className="inline-flex items-center gap-2">
+                  <span className="inline-block h-3 w-3 shrink-0 rounded" style={{ background: r.color }} />
+                  <span className="text-foreground">{r.name}</span>
+                  <span className="ml-auto font-mono text-muted-foreground">{r.value}건</span>
+                </span>
+              ))}
+            </div>
           </div>
         </section>
       </div>
@@ -367,11 +489,17 @@ export default function L03Quality() {
         <div className="mb-3 flex items-center justify-between">
           <div>
             <h3 className="text-sm font-semibold text-foreground">탐지 결함 샘플 (클릭 → 상세 모달)</h3>
-            <p className="mt-1 text-xs text-muted-foreground">YOLOv11s 추론 결과 251건 중 리스크 대표 샘플</p>
+            <p className="mt-1 text-xs text-muted-foreground">YOLOv11s 추론 결과 251건 중 슬라이딩 윈도우 표시</p>
           </div>
+          {isLive && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/40 bg-emerald-500/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+              Live
+            </span>
+          )}
         </div>
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {sampleDefects.map((d) => (
+          {displayCards.map((d) => (
             <DefectCard key={d.id} d={d} onClick={() => setSelected(d)} />
           ))}
         </div>

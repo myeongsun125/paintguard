@@ -47,7 +47,7 @@ function isShiftHourMap(v: unknown): v is ShiftHourMap {
 }
 
 export default function L02Process() {
-  const { data: processData } = trpc.mes.processData.useQuery();
+  const { data: processData } = trpc.mes.processData.useQuery(undefined, { refetchInterval: 30_000 });
   const isLive = processData?.isLive === true;
 
   const plantData: PlantRate[] = isPlantRateArray(processData?.kpiDaily)

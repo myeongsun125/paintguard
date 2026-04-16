@@ -75,3 +75,7 @@ export async function getDefectMeta(filename: string): Promise<unknown> {
 export async function loadWorkOrders(date: string) {
   return getJson(`work_orders/${date}.json`);
 }
+
+export async function loadDefectList() {
+  return getJson("defects/list.json");
+}

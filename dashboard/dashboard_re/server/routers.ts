@@ -9,6 +9,7 @@ import {
   getDefectImageUrl,
   getDefectMeta,
   loadAlertEvents,
+  loadDefectList,
   loadEnvBins,
   loadKpiDaily,
   loadLineMonthly,
@@ -95,6 +96,10 @@ export const appRouter = router({
         const data = await loadWorkOrders(input.date);
         return { data, isLive: IS_PROD };
       }),
+    defectList: publicProcedure.query(async () => {
+      const data = await loadDefectList();
+      return { data, isLive: IS_PROD };
+    }),
     analyzeQualityImage: publicProcedure
       .input(imageAnalysisInput)
       .mutation(async ({ input }) => {

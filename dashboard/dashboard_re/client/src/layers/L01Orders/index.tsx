@@ -61,7 +61,7 @@ function Panel({ title, desc, children }: { title: string; desc: string; childre
 }
 
 export default function L01Orders() {
-  const { data: l01Data } = trpc.mes.l01Data.useQuery();
+  const { data: l01Data } = trpc.mes.l01Data.useQuery(undefined, { refetchInterval: 60_000 });
   const isLive = l01Data?.isLive === true;
 
   const simNow = useSimClock(60_000);

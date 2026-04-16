@@ -113,7 +113,7 @@ const AnomalyTooltip = ({ active, payload }: any) => {
 
 export default function L04Maintenance() {
   const [sel, setSel] = useState<string>("OVEN-01");
-  const { data: maintenanceData } = trpc.mes.maintenanceData.useQuery();
+  const { data: maintenanceData } = trpc.mes.maintenanceData.useQuery(undefined, { refetchInterval: 30_000 });
   const isLive = maintenanceData?.isLive === true;
 
   const ovenList: Oven[] = isOvenArray(maintenanceData?.ovenStatus)
