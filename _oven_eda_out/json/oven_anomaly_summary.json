@@ -1,0 +1,14 @@
+{
+  "total_events": 12861,
+  "by_type": {
+    "HEATER_DEGRADATION": 12142,
+    "TEMP_SENSOR_ERR": 341,
+    "CIRCULATION_FAN": 226,
+    "CONVEYOR_SPEED": 152
+  },
+  "by_severity": {
+    "MEDIUM": 12520,
+    "HIGH": 341
+  },
+  "maintenance_required_ratio": 1.0
+}

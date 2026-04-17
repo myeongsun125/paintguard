@@ -1,0 +1,2194 @@
+[
+  {
+    "date": "2025-02-01",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-02-03",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 42
+  },
+  {
+    "date": "2025-02-04",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 3
+  },
+  {
+    "date": "2025-02-05",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 119
+  },
+  {
+    "date": "2025-02-06",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 67
+  },
+  {
+    "date": "2025-02-07",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 40
+  },
+  {
+    "date": "2025-02-08",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 4
+  },
+  {
+    "date": "2025-02-10",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 39
+  },
+  {
+    "date": "2025-02-11",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 65
+  },
+  {
+    "date": "2025-02-12",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 106
+  },
+  {
+    "date": "2025-02-13",
+    "CIRCULATION_FAN": 4,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 59
+  },
+  {
+    "date": "2025-02-14",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-02-15",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 5,
+    "total": 47
+  },
+  {
+    "date": "2025-02-17",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-02-18",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 29
+  },
+  {
+    "date": "2025-02-19",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 147
+  },
+  {
+    "date": "2025-02-20",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 65
+  },
+  {
+    "date": "2025-02-21",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 41
+  },
+  {
+    "date": "2025-02-22",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 44
+  },
+  {
+    "date": "2025-02-24",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 42
+  },
+  {
+    "date": "2025-02-25",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 82
+  },
+  {
+    "date": "2025-02-26",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 44
+  },
+  {
+    "date": "2025-02-27",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-02-28",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 4
+  },
+  {
+    "date": "2025-03-03",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-03-04",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 79
+  },
+  {
+    "date": "2025-03-05",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 78
+  },
+  {
+    "date": "2025-03-06",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 27
+  },
+  {
+    "date": "2025-03-07",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-03-08",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-03-10",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 1
+  },
+  {
+    "date": "2025-03-11",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 82
+  },
+  {
+    "date": "2025-03-12",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 6
+  },
+  {
+    "date": "2025-03-13",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 81
+  },
+  {
+    "date": "2025-03-14",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-03-15",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 5
+  },
+  {
+    "date": "2025-03-17",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 120
+  },
+  {
+    "date": "2025-03-18",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 68
+  },
+  {
+    "date": "2025-03-19",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 44
+  },
+  {
+    "date": "2025-03-20",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 3
+  },
+  {
+    "date": "2025-03-21",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 45
+  },
+  {
+    "date": "2025-03-22",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 66
+  },
+  {
+    "date": "2025-03-24",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 104
+  },
+  {
+    "date": "2025-03-25",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 54
+  },
+  {
+    "date": "2025-03-26",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 1
+  },
+  {
+    "date": "2025-03-27",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 39
+  },
+  {
+    "date": "2025-03-28",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-03-29",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 29
+  },
+  {
+    "date": "2025-03-31",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 145
+  },
+  {
+    "date": "2025-04-01",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 68
+  },
+  {
+    "date": "2025-04-02",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 39
+  },
+  {
+    "date": "2025-04-03",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 40
+  },
+  {
+    "date": "2025-04-04",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 40
+  },
+  {
+    "date": "2025-04-05",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 79
+  },
+  {
+    "date": "2025-04-07",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 39
+  },
+  {
+    "date": "2025-04-08",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 79
+  },
+  {
+    "date": "2025-04-09",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 1
+  },
+  {
+    "date": "2025-04-10",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-04-11",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 84
+  },
+  {
+    "date": "2025-04-12",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 78
+  },
+  {
+    "date": "2025-04-14",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 28
+  },
+  {
+    "date": "2025-04-15",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-04-16",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 1
+  },
+  {
+    "date": "2025-04-17",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 3
+  },
+  {
+    "date": "2025-04-18",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 81
+  },
+  {
+    "date": "2025-04-19",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-04-21",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-04-22",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 43
+  },
+  {
+    "date": "2025-04-23",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 3
+  },
+  {
+    "date": "2025-04-24",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 118
+  },
+  {
+    "date": "2025-04-25",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 68
+  },
+  {
+    "date": "2025-04-26",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 44
+  },
+  {
+    "date": "2025-04-28",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-04-29",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-04-30",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 66
+  },
+  {
+    "date": "2025-05-01",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 105
+  },
+  {
+    "date": "2025-05-02",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 53
+  },
+  {
+    "date": "2025-05-03",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 6
+  },
+  {
+    "date": "2025-05-07",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 41
+  },
+  {
+    "date": "2025-05-08",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 3
+  },
+  {
+    "date": "2025-05-09",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 29
+  },
+  {
+    "date": "2025-05-10",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 145
+  },
+  {
+    "date": "2025-05-12",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 65
+  },
+  {
+    "date": "2025-05-13",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 41
+  },
+  {
+    "date": "2025-05-14",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 43
+  },
+  {
+    "date": "2025-05-15",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-05-16",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 81
+  },
+  {
+    "date": "2025-05-17",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 41
+  },
+  {
+    "date": "2025-05-19",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 80
+  },
+  {
+    "date": "2025-05-21",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 4
+  },
+  {
+    "date": "2025-05-22",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 81
+  },
+  {
+    "date": "2025-05-23",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 79
+  },
+  {
+    "date": "2025-05-24",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 28
+  },
+  {
+    "date": "2025-05-26",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 7
+  },
+  {
+    "date": "2025-05-27",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 4
+  },
+  {
+    "date": "2025-05-28",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-05-29",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 80
+  },
+  {
+    "date": "2025-05-30",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 5
+  },
+  {
+    "date": "2025-05-31",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-06-02",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 40
+  },
+  {
+    "date": "2025-06-03",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-06-04",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 119
+  },
+  {
+    "date": "2025-06-05",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 68
+  },
+  {
+    "date": "2025-06-07",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 40
+  },
+  {
+    "date": "2025-06-09",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 4
+  },
+  {
+    "date": "2025-06-10",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 40
+  },
+  {
+    "date": "2025-06-11",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 66
+  },
+  {
+    "date": "2025-06-12",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 105
+  },
+  {
+    "date": "2025-06-13",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 56
+  },
+  {
+    "date": "2025-06-14",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-06-16",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-06-17",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 1
+  },
+  {
+    "date": "2025-06-18",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 30
+  },
+  {
+    "date": "2025-06-19",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 144
+  },
+  {
+    "date": "2025-06-20",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 70
+  },
+  {
+    "date": "2025-06-21",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 41
+  },
+  {
+    "date": "2025-06-23",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-06-24",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 40
+  },
+  {
+    "date": "2025-06-25",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 79
+  },
+  {
+    "date": "2025-06-26",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 43
+  },
+  {
+    "date": "2025-06-27",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 82
+  },
+  {
+    "date": "2025-06-28",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 5
+  },
+  {
+    "date": "2025-06-30",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 3
+  },
+  {
+    "date": "2025-07-01",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-07-02",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 83
+  },
+  {
+    "date": "2025-07-03",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 27
+  },
+  {
+    "date": "2025-07-04",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 5
+  },
+  {
+    "date": "2025-07-05",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 3
+  },
+  {
+    "date": "2025-07-07",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-07-08",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-07-09",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 1
+  },
+  {
+    "date": "2025-07-10",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-07-11",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-07-12",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-07-14",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 3,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 125
+  },
+  {
+    "date": "2025-07-15",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 70
+  },
+  {
+    "date": "2025-07-16",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 41
+  },
+  {
+    "date": "2025-07-17",
+    "CIRCULATION_FAN": 4,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 5
+  },
+  {
+    "date": "2025-07-18",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 44
+  },
+  {
+    "date": "2025-07-19",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 67
+  },
+  {
+    "date": "2025-07-21",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 107
+  },
+  {
+    "date": "2025-07-22",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 56
+  },
+  {
+    "date": "2025-07-23",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-07-24",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 40
+  },
+  {
+    "date": "2025-07-25",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 3
+  },
+  {
+    "date": "2025-07-26",
+    "CIRCULATION_FAN": 4,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 32
+  },
+  {
+    "date": "2025-07-28",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 146
+  },
+  {
+    "date": "2025-07-29",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 68
+  },
+  {
+    "date": "2025-07-30",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 41
+  },
+  {
+    "date": "2025-07-31",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 42
+  },
+  {
+    "date": "2025-08-01",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 42
+  },
+  {
+    "date": "2025-08-02",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-08-04",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-08-05",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 82
+  },
+  {
+    "date": "2025-08-06",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 5
+  },
+  {
+    "date": "2025-08-07",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 5
+  },
+  {
+    "date": "2025-08-08",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-08-09",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 81
+  },
+  {
+    "date": "2025-08-11",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 28
+  },
+  {
+    "date": "2025-08-12",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-08-13",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-08-14",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 1
+  },
+  {
+    "date": "2025-08-16",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 78
+  },
+  {
+    "date": "2025-08-18",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 4
+  },
+  {
+    "date": "2025-08-19",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 81
+  },
+  {
+    "date": "2025-08-20",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 40
+  },
+  {
+    "date": "2025-08-21",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 6
+  },
+  {
+    "date": "2025-08-22",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 119
+  },
+  {
+    "date": "2025-08-23",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 70
+  },
+  {
+    "date": "2025-08-25",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 40
+  },
+  {
+    "date": "2025-08-26",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 1
+  },
+  {
+    "date": "2025-08-27",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 41
+  },
+  {
+    "date": "2025-08-28",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 66
+  },
+  {
+    "date": "2025-08-29",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 104
+  },
+  {
+    "date": "2025-08-30",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 53
+  },
+  {
+    "date": "2025-09-01",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-09-02",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 41
+  },
+  {
+    "date": "2025-09-03",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 5,
+    "total": 8
+  },
+  {
+    "date": "2025-09-04",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 32
+  },
+  {
+    "date": "2025-09-05",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 145
+  },
+  {
+    "date": "2025-09-06",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 67
+  },
+  {
+    "date": "2025-09-08",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-09-09",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 43
+  },
+  {
+    "date": "2025-09-10",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 3,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 44
+  },
+  {
+    "date": "2025-09-11",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-09-12",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 42
+  },
+  {
+    "date": "2025-09-13",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 81
+  },
+  {
+    "date": "2025-09-15",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 5
+  },
+  {
+    "date": "2025-09-16",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-09-17",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 81
+  },
+  {
+    "date": "2025-09-18",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-09-19",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 27
+  },
+  {
+    "date": "2025-09-20",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 5
+  },
+  {
+    "date": "2025-09-22",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 3
+  },
+  {
+    "date": "2025-09-23",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 1
+  },
+  {
+    "date": "2025-09-24",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-09-25",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 5
+  },
+  {
+    "date": "2025-09-26",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-09-27",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-09-29",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-09-30",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 119
+  },
+  {
+    "date": "2025-10-01",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 68
+  },
+  {
+    "date": "2025-10-02",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 44
+  },
+  {
+    "date": "2025-10-04",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 1
+  },
+  {
+    "date": "2025-10-08",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 43
+  },
+  {
+    "date": "2025-10-10",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 3,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 73
+  },
+  {
+    "date": "2025-10-11",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 104
+  },
+  {
+    "date": "2025-10-13",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 54
+  },
+  {
+    "date": "2025-10-14",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 4
+  },
+  {
+    "date": "2025-10-15",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 40
+  },
+  {
+    "date": "2025-10-16",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 3
+  },
+  {
+    "date": "2025-10-17",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 27
+  },
+  {
+    "date": "2025-10-18",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 144
+  },
+  {
+    "date": "2025-10-20",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 3,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 69
+  },
+  {
+    "date": "2025-10-21",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 41
+  },
+  {
+    "date": "2025-10-22",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 41
+  },
+  {
+    "date": "2025-10-23",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 46
+  },
+  {
+    "date": "2025-10-24",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 78
+  },
+  {
+    "date": "2025-10-25",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 42
+  },
+  {
+    "date": "2025-10-27",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 80
+  },
+  {
+    "date": "2025-10-28",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 6
+  },
+  {
+    "date": "2025-10-30",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 80
+  },
+  {
+    "date": "2025-10-31",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 81
+  },
+  {
+    "date": "2025-11-01",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 32
+  },
+  {
+    "date": "2025-11-03",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 4
+  },
+  {
+    "date": "2025-11-04",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 4
+  },
+  {
+    "date": "2025-11-05",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 2
+  },
+  {
+    "date": "2025-11-06",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 78
+  },
+  {
+    "date": "2025-11-07",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 2
+  },
+  {
+    "date": "2025-11-08",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 80
+  },
+  {
+    "date": "2025-11-10",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 42
+  },
+  {
+    "date": "2025-11-11",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 4,
+    "total": 5
+  },
+  {
+    "date": "2025-11-12",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 120
+  },
+  {
+    "date": "2025-11-13",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 68
+  },
+  {
+    "date": "2025-11-14",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 42
+  },
+  {
+    "date": "2025-11-15",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-11-17",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 43
+  },
+  {
+    "date": "2025-11-18",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 67
+  },
+  {
+    "date": "2025-11-19",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 105
+  },
+  {
+    "date": "2025-11-20",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 54
+  },
+  {
+    "date": "2025-11-21",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 5
+  },
+  {
+    "date": "2025-11-22",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 42
+  },
+  {
+    "date": "2025-11-24",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 4
+  },
+  {
+    "date": "2025-11-25",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 29
+  },
+  {
+    "date": "2025-11-26",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 143,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 147
+  },
+  {
+    "date": "2025-11-27",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 66
+  },
+  {
+    "date": "2025-11-28",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 40
+  },
+  {
+    "date": "2025-11-29",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 41
+  },
+  {
+    "date": "2025-12-01",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 42
+  },
+  {
+    "date": "2025-12-02",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 80
+  },
+  {
+    "date": "2025-12-03",
+    "CIRCULATION_FAN": 3,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 42
+  },
+  {
+    "date": "2025-12-04",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-12-05",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 3
+  },
+  {
+    "date": "2025-12-06",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 2
+  },
+  {
+    "date": "2025-12-08",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 78
+  },
+  {
+    "date": "2025-12-09",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 79
+  },
+  {
+    "date": "2025-12-10",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 26,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 29
+  },
+  {
+    "date": "2025-12-11",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 2,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 4
+  },
+  {
+    "date": "2025-12-12",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 2,
+    "total": 3
+  },
+  {
+    "date": "2025-12-13",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 4
+  },
+  {
+    "date": "2025-12-15",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 79
+  },
+  {
+    "date": "2025-12-16",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-12-17",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 78,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 79
+  },
+  {
+    "date": "2025-12-18",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 40
+  },
+  {
+    "date": "2025-12-19",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 1
+  },
+  {
+    "date": "2025-12-20",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 117,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 120
+  },
+  {
+    "date": "2025-12-22",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 66
+  },
+  {
+    "date": "2025-12-23",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 41
+  },
+  {
+    "date": "2025-12-24",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 2
+  },
+  {
+    "date": "2025-12-26",
+    "CIRCULATION_FAN": 2,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 39,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 42
+  },
+  {
+    "date": "2025-12-27",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 65,
+    "TEMP_SENSOR_ERR": 0,
+    "total": 67
+  },
+  {
+    "date": "2025-12-29",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 1,
+    "HEATER_DEGRADATION": 104,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 108
+  },
+  {
+    "date": "2025-12-30",
+    "CIRCULATION_FAN": 1,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 52,
+    "TEMP_SENSOR_ERR": 3,
+    "total": 56
+  },
+  {
+    "date": "2025-12-31",
+    "CIRCULATION_FAN": 0,
+    "CONVEYOR_SPEED": 0,
+    "HEATER_DEGRADATION": 0,
+    "TEMP_SENSOR_ERR": 1,
+    "total": 1
+  }
+]
