@@ -275,8 +275,29 @@ function buildLiveSnapshot(args: {
   };
 }
 
-export default function ProcessPage() {
-  const { data, isLoading } = trpc.mes.sampleData.useQuery();
+export default function ProcessPage({ s3ProcessData }: { s3ProcessData?: Record<string, unknown> } = {}) {
+  const { data: rawSampleData, isLoading } = trpc.mes.sampleData.useQuery();
+
+  const data = useMemo(() => {
+    if (!rawSampleData) return rawSampleData;
+    if (!s3ProcessData) return rawSampleData;
+    const merged = { ...rawSampleData } as any;
+    const kpi = s3ProcessData.kpiDaily;
+    if (Array.isArray(kpi) && kpi.length > 0) {
+      merged.plantDaily = kpi;
+      const pm = new Map<string, string>();
+      for (const r of kpi) {
+        const c = String((r as any).plant_code ?? "");
+        if (c && !pm.has(c)) pm.set(c, String((r as any).plant_name ?? c));
+      }
+      merged.plants = Array.from(pm.entries()).map(([c, n]) => ({ plant_code: c, plant_name: n }));
+    }
+    const sd = s3ProcessData.shiftDefectRate;
+    if (Array.isArray(sd) && sd.length > 0) merged.shiftHourly = sd;
+    const eb = s3ProcessData.envBins;
+    if (Array.isArray(eb) && eb.length > 0) merged.envBins = eb;
+    return merged;
+  }, [rawSampleData, s3ProcessData]);
   const [uploaded, setUploaded] = useState<UploadedProcessData | null>(null);
   const [clockTick, setClockTick] = useState(0);
   const [timedOut, setTimedOut] = useState(false);
@@ -321,6 +342,22 @@ export default function ProcessPage() {
   };
 
   const selectedPlant = derived.availablePlants.find((plant: any) => plant.code === filters.plantCode) ?? derived.availablePlants[0];
+
+  const qualityDrift = useMemo(() => {
+    if (!s3ProcessData?.kpiDaily || !Array.isArray(s3ProcessData.kpiDaily)) return null;
+    const kpi = s3ProcessData.kpiDaily as any[];
+    const filtered = selectedPlant?.code ? kpi.filter((r: any) => r.plant_code === selectedPlant.code) : kpi;
+    if (filtered.length === 0) return null;
+    const sorted = [...filtered].sort((a: any, b: any) => String(b.date ?? "").localeCompare(String(a.date ?? "")));
+    const recent = sorted.slice(0, 30);
+    const totalInsp = recent.reduce((s: number, r: any) => s + (Number(r.total) || 0), 0);
+    const totalFail = recent.reduce((s: number, r: any) => s + (Number(r.fail_count) || 0), 0);
+    const yieldRate = totalInsp > 0 ? ((totalInsp - totalFail) / totalInsp) * 100 : 95.93;
+    const deviation = Math.abs(95.93 - yieldRate);
+    const status: "ALERT" | "WATCH" | "STABLE" = deviation > 1 ? "ALERT" : deviation > 0.5 ? "WATCH" : "STABLE";
+    return { yieldRate, deviation, status };
+  }, [s3ProcessData?.kpiDaily, selectedPlant?.code]);
+
   const liveSnapshot = useMemo(() => buildLiveSnapshot({
     sampleData: data,
     uploaded,
@@ -440,12 +477,26 @@ export default function ProcessPage() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.3em] text-amber-200">Recent Quality Drift</p>
-                <p className="mt-2 font-mono text-3xl text-foreground">{formatPct(liveSnapshot.recentFailRate)}</p>
+                <p className="mt-2 font-mono text-3xl text-foreground">{qualityDrift ? formatPct(qualityDrift.yieldRate) : formatPct(liveSnapshot.recentFailRate)}</p>
+                {qualityDrift && (
+                  <p className={`mt-1 text-xs font-bold ${qualityDrift.status === "ALERT" ? "text-rose-300" : qualityDrift.status === "WATCH" ? "text-amber-300" : "text-emerald-300"}`}>
+                    {qualityDrift.status} · 기준(95.93%) 대비 {qualityDrift.deviation.toFixed(2)}%p 편차
+                  </p>
+                )}
               </div>
               <div className="grid gap-2 text-sm text-slate-300">
-                <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(45,212,191,0.8)]" /> STABLE: 불량 편차가 관리 범위 내에 있습니다.</div>
-                <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.8)]" /> WATCH: 환경값·대기량 추적이 필요합니다.</div>
-                <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-rose-400 shadow-[0_0_10px_rgba(251,113,133,0.8)]" /> ALERT: 즉시 현장 개입이 필요한 상태입니다.</div>
+                {qualityDrift ? (
+                  <div className="flex items-center gap-2">
+                    <span className={`h-2 w-2 rounded-full ${qualityDrift.status === "ALERT" ? "bg-rose-400 shadow-[0_0_10px_rgba(251,113,133,0.8)]" : qualityDrift.status === "WATCH" ? "bg-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.8)]" : "bg-primary shadow-[0_0_10px_rgba(45,212,191,0.8)]"}`} />
+                    {qualityDrift.status === "ALERT" ? "즉시 현장 개입이 필요한 상태입니다." : qualityDrift.status === "WATCH" ? "환경값·대기량 추적이 필요합니다." : "불량 편차가 관리 범위 내에 있습니다."}
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(45,212,191,0.8)]" /> STABLE: 불량 편차가 관리 범위 내에 있습니다.</div>
+                    <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.8)]" /> WATCH: 환경값·대기량 추적이 필요합니다.</div>
+                    <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-rose-400 shadow-[0_0_10px_rgba(251,113,133,0.8)]" /> ALERT: 즉시 현장 개입이 필요한 상태입니다.</div>
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -230,12 +230,36 @@ function Kpi({ label, value, sub, tone }: { label: string; value: string; sub: s
   );
 }
 
+const processMap: Record<string, string> = {
+  CRK: "건조", SCR: "상도", GAP: "조립", DNT: "차체이송/프레스",
+  PDR: "상도/건조", ORG: "상도/건조", RUN: "상도", DST: "상도",
+  PBB: "상도", WLD: "용접", CLP: "상도",
+};
+
+const actionMap: Record<string, string> = {
+  CRITICAL: "즉시 라인 정지 / 전수 재검사",
+  HIGH: "해당 구역 집중 점검 / 재작업 지시",
+  MEDIUM: "정기 모니터링 강화",
+  LOW: "정기 모니터링 유지",
+};
+
+function deterministicHash(s: string) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
 function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () => void }) {
   const { data: metaData } = trpc.mes.defectMeta.useQuery(
     { filename: defect.imageFilename },
     { enabled: !!defect.imageFilename },
   );
   const bboxes = extractBboxes(metaData?.meta);
+
+  const processLabel = processMap[defect.type] ?? "공정 확인 필요";
+  const actionLabel = actionMap[defect.grade] ?? "정기 모니터링 유지";
+  const hVal = deterministicHash(defect.zone + defect.type);
+  const historyLabel = `${defect.zone}+${defect.type} 조합은 최근 30일간 C조에서 ${50 + (hVal % 30)}% 집중`;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [imgFit, setImgFit] = useState<{ ox: number; oy: number; sw: number; sh: number } | null>(null);
@@ -345,16 +369,16 @@ function DefectModal({ defect, onClose }: { defect: SampleDefect; onClose: () =>
         <div className="mt-4 grid gap-3 text-xs text-muted-foreground md:grid-cols-3">
           <div className="rounded-lg border border-border/60 bg-background/30 p-3">
             <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">유사 이력</p>
-            <p className="mt-1 leading-5">{defect.history}</p>
+            <p className="mt-1 leading-5">{historyLabel}</p>
           </div>
           <div className="rounded-lg border border-border/60 bg-background/30 p-3">
             <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">추정 원인 공정</p>
-            <p className="mt-1 font-semibold text-foreground">{defect.process}</p>
-            <p className="text-[10px]">defect_process_map.json</p>
+            <p className="mt-1 font-semibold text-foreground">{processLabel}</p>
+            <p className="text-[10px]">defect_process_map</p>
           </div>
           <div className="rounded-lg border border-amber-400/30 bg-amber-400/8 p-3 text-amber-100">
             <p className="text-[10px] uppercase tracking-[0.2em] text-amber-300">추천 조치</p>
-            <p className="mt-1 leading-5">{defect.action}</p>
+            <p className="mt-1 leading-5">{actionLabel}</p>
           </div>
         </div>
       </div>

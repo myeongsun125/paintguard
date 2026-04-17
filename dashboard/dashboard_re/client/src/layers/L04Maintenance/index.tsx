@@ -1,47 +1,20 @@
 import { Area, AreaChart, CartesianGrid, Cell, Line, LineChart, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AlertTriangle, Flame, Gauge, Thermometer } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 
 type OvenStatus = "OK" | "WARN" | "CRIT";
 type Oven = { id: string; status: OvenStatus; temp: number; anomaly?: string };
-type AlertEvent = { oven: string; zone: string; reason: string; due: string };
 
-const ovens: Oven[] = Array.from({ length: 13 }, (_, i) => {
+/* ── fallback data ── */
+const fallbackOvens: Oven[] = Array.from({ length: 13 }, (_, i) => {
   const id = `OVEN-${String(i + 1).padStart(2, "0")}`;
   const r = (i * 17) % 13;
   const status: OvenStatus = r < 9 ? "OK" : r < 11 ? "WARN" : "CRIT";
   return { id, status, temp: 180 + r * 3.2, anomaly: status !== "OK" ? ["HEATER", "SENSOR", "FAN", "CONVEYOR"][r % 4] : undefined };
 });
 
-function isOvenArray(v: unknown): v is Oven[] {
-  return (
-    Array.isArray(v) &&
-    v.every(
-      (x) =>
-        x !== null &&
-        typeof x === "object" &&
-        typeof (x as Oven).id === "string" &&
-        typeof (x as Oven).status === "string" &&
-        typeof (x as Oven).temp === "number"
-    )
-  );
-}
-
-function isAlertEventArray(v: unknown): v is AlertEvent[] {
-  return (
-    Array.isArray(v) &&
-    v.every(
-      (x) =>
-        x !== null &&
-        typeof x === "object" &&
-        typeof (x as AlertEvent).oven === "string" &&
-        typeof (x as AlertEvent).reason === "string"
-    )
-  );
-}
-
-const tempProfile = Array.from({ length: 24 }, (_, i) => ({
+const fallbackTempProfile = Array.from({ length: 24 }, (_, i) => ({
   t: `${i}:00`,
   z1: 180 + Math.sin(i / 3) * 3,
   z2: 182 + Math.cos(i / 4) * 2,
@@ -49,17 +22,24 @@ const tempProfile = Array.from({ length: 24 }, (_, i) => ({
   z4: 183 + Math.cos(i / 3.2) * 3,
 }));
 
-const heaterCurrent = Array.from({ length: 40 }, (_, i) => ({
+const fallbackHeaterCurrent = Array.from({ length: 40 }, (_, i) => ({
   s: i,
   temp: 180 + Math.sin(i / 3) * 4 + (i === 25 ? 12 : 0),
   current: 32 + Math.cos(i / 3) * 1.5 + (i === 25 ? 4.5 : 0),
+  isAnomaly: i === 25,
 }));
 
-const anomalyDonut = [
+const fallbackAnomalyDonut = [
   { name: "HEATER", value: 42, color: "#ef4444" },
   { name: "SENSOR", value: 28, color: "#f59e0b" },
   { name: "FAN", value: 18, color: "#22d3ee" },
   { name: "CONVEYOR", value: 12, color: "#a78bfa" },
+];
+
+const fallbackMaintenanceList = [
+  { oven: "OVEN-11", anomaly: "HEATER_DEGRADATION", severity: "HIGH", date: "2026-04-15" },
+  { oven: "OVEN-07", anomaly: "TEMP_SENSOR_ERR", severity: "MEDIUM", date: "2026-04-12" },
+  { oven: "OVEN-04", anomaly: "CONVEYOR_SPEED", severity: "MEDIUM", date: "2026-04-10" },
 ];
 
 const aeError = Array.from({ length: 36 }, (_, i) => ({
@@ -67,11 +47,55 @@ const aeError = Array.from({ length: 36 }, (_, i) => ({
   err: 0.12 + Math.sin(i / 4) * 0.04 + (i > 28 ? 0.15 : 0),
 }));
 
-const maintenanceList = [
-  { oven: "OVEN-11", zone: "Zone 3", reason: "히터 전류 편차 +14%", due: "D-2" },
-  { oven: "OVEN-07", zone: "Zone 2", reason: "센서 값 튐 현상 반복", due: "D-5" },
-  { oven: "OVEN-04", zone: "Zone 1", reason: "컨베이어 속도 저하", due: "D-7" },
-];
+/* ── helpers ── */
+function asNum(v: unknown, fb = 0) {
+  const n = Number(v ?? fb);
+  return Number.isFinite(n) ? n : fb;
+}
+
+const ANOMALY_COLORS: Record<string, string> = {
+  HEATER_DEGRADATION: "#ef4444",
+  TEMP_SENSOR_ERR: "#f59e0b",
+  CIRCULATION_FAN: "#22d3ee",
+  CONVEYOR_SPEED: "#a78bfa",
+};
+
+function parseOvenList(ovenRaw: unknown, eventsRaw: unknown): Oven[] | null {
+  if (!Array.isArray(ovenRaw) || ovenRaw.length === 0) return null;
+  if (typeof (ovenRaw[0] as any)?.oven_id !== "string") return null;
+
+  const latest = new Map<string, Record<string, unknown>>();
+  for (const r of ovenRaw) {
+    if (!r || typeof r !== "object") continue;
+    const row = r as Record<string, unknown>;
+    const id = String(row.oven_id ?? "");
+    const date = String(row.date ?? "");
+    const existing = latest.get(id);
+    if (!existing || date > String(existing.date ?? "")) latest.set(id, row);
+  }
+
+  const maintSet = new Set<string>();
+  if (Array.isArray(eventsRaw)) {
+    for (const e of eventsRaw) {
+      if (!e || typeof e !== "object") continue;
+      const ev = e as Record<string, unknown>;
+      if (String(ev.maintenance_required ?? "") === "Y") maintSet.add(String(ev.oven_id ?? ""));
+    }
+  }
+
+  return Array.from(latest.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([id, row]) => {
+      const anomalyType = String(row.anomaly_type ?? "NORMAL");
+      const isNormal = anomalyType === "NORMAL";
+      return {
+        id,
+        status: (isNormal ? "OK" : maintSet.has(id) ? "CRIT" : "WARN") as OvenStatus,
+        temp: asNum(row.avg_oven_temp, 180),
+        anomaly: isNormal ? undefined : anomalyType,
+      };
+    });
+}
 
 function Kpi({ label, value, sub, tone, Icon }: { label: string; value: string; sub: string; tone: "ok" | "warn" | "crit" | "info"; Icon: typeof Gauge }) {
   const tones = {
@@ -116,15 +140,105 @@ export default function L04Maintenance() {
   const { data: maintenanceData } = trpc.mes.maintenanceData.useQuery(undefined, { refetchInterval: 30_000 });
   const isLive = maintenanceData?.isLive === true;
 
-  const ovenList: Oven[] = isOvenArray(maintenanceData?.ovenStatus)
-    ? maintenanceData.ovenStatus
-    : ovens;
-  const alertList: AlertEvent[] = isAlertEventArray(maintenanceData?.alertEvents)
-    ? maintenanceData.alertEvents
-    : maintenanceList;
+  /* ── oven cards ── */
+  const ovenList: Oven[] = useMemo(() => {
+    const parsed = parseOvenList(maintenanceData?.ovenStatus, maintenanceData?.alertEvents);
+    return parsed ?? fallbackOvens;
+  }, [maintenanceData?.ovenStatus, maintenanceData?.alertEvents]);
 
-  const crit = ovenList.filter((o) => o.status === "CRIT").length;
-  const warn = ovenList.filter((o) => o.status === "WARN").length;
+  /* ── zone temp profile for selected oven ── */
+  const tempProfile = useMemo(() => {
+    const raw = maintenanceData?.ovenStatus;
+    if (!Array.isArray(raw) || raw.length === 0 || !isLive) return fallbackTempProfile;
+    const filtered = (raw as Record<string, unknown>[])
+      .filter((r) => String(r.oven_id ?? "") === sel)
+      .sort((a, b) => String(a.date ?? "").localeCompare(String(b.date ?? "")));
+    if (filtered.length === 0) return fallbackTempProfile;
+    return filtered.map((r) => ({
+      t: String(r.date ?? "").slice(5),
+      z1: asNum(r.zone1_avg_temp, 180),
+      z2: asNum(r.zone2_avg_temp, 182),
+      z3: asNum(r.zone3_avg_temp, 185),
+      z4: asNum(r.zone4_avg_temp, 183),
+    }));
+  }, [maintenanceData?.ovenStatus, sel, isLive]);
+
+  /* ── heater current + temp for selected oven ── */
+  const heaterData = useMemo(() => {
+    const raw = maintenanceData?.ovenStatus;
+    if (!Array.isArray(raw) || raw.length === 0 || !isLive) return fallbackHeaterCurrent;
+    const filtered = (raw as Record<string, unknown>[])
+      .filter((r) => String(r.oven_id ?? "") === sel)
+      .sort((a, b) => String(a.date ?? "").localeCompare(String(b.date ?? "")));
+    if (filtered.length === 0) return fallbackHeaterCurrent;
+    return filtered.map((r, i) => ({
+      s: i,
+      temp: asNum(r.avg_oven_temp, 180),
+      current: asNum(r.avg_heater_curr, 32),
+      isAnomaly: String(r.anomaly_type ?? "NORMAL") !== "NORMAL",
+    }));
+  }, [maintenanceData?.ovenStatus, sel, isLive]);
+
+  const anomalyIndices = heaterData.map((d, i) => (d.isAnomaly ? i : -1)).filter((i) => i >= 0);
+
+  /* ── anomaly donut from events ── */
+  const anomalyDonut = useMemo(() => {
+    const raw = maintenanceData?.alertEvents;
+    if (!Array.isArray(raw) || raw.length === 0 || !isLive) return fallbackAnomalyDonut;
+    const counts = new Map<string, number>();
+    (raw as Record<string, unknown>[]).forEach((e) => {
+      const t = String(e.anomaly_type ?? "UNKNOWN");
+      counts.set(t, (counts.get(t) ?? 0) + 1);
+    });
+    return Array.from(counts.entries()).map(([name, value]) => ({
+      name,
+      value,
+      color: ANOMALY_COLORS[name] ?? "#94a3b8",
+    }));
+  }, [maintenanceData?.alertEvents, isLive]);
+
+  /* ── maintenance table from events ── */
+  const alertList = useMemo(() => {
+    const raw = maintenanceData?.alertEvents;
+    if (!Array.isArray(raw) || raw.length === 0 || !isLive) return fallbackMaintenanceList;
+    return (raw as Record<string, unknown>[])
+      .filter((e) => String(e.maintenance_required ?? "") === "Y")
+      .map((e) => ({
+        oven: String(e.oven_id ?? ""),
+        anomaly: String(e.anomaly_type ?? ""),
+        severity: String(e.severity ?? ""),
+        date: String(e.date ?? ""),
+      }));
+  }, [maintenanceData?.alertEvents, isLive]);
+
+  /* ── KPI values ── */
+  const kpiVals = useMemo(() => {
+    const eventsRaw = maintenanceData?.alertEvents;
+    const normalCount = ovenList.filter((o) => o.status === "OK").length;
+    const normalRate = ovenList.length > 0 ? (normalCount / ovenList.length) * 100 : 0;
+
+    let todayAlerts = 0;
+    let maintCount = 0;
+    if (Array.isArray(eventsRaw) && eventsRaw.length > 0) {
+      const events = eventsRaw as Record<string, unknown>[];
+      const dates = events.map((e) => String(e.date ?? "")).filter(Boolean).sort();
+      const latestDate = dates[dates.length - 1] ?? "";
+      todayAlerts = events.filter((e) => {
+        const sev = String(e.severity ?? "").toUpperCase();
+        return String(e.date ?? "") === latestDate && (sev === "HIGH" || sev === "MEDIUM");
+      }).length;
+      const maintOvens = new Set<string>();
+      events.forEach((e) => {
+        if (String(e.maintenance_required ?? "") === "Y") maintOvens.add(String(e.oven_id ?? ""));
+      });
+      maintCount = maintOvens.size;
+    } else {
+      todayAlerts = ovenList.filter((o) => o.status === "CRIT").length + ovenList.filter((o) => o.status === "WARN").length;
+      maintCount = ovenList.filter((o) => o.status === "CRIT").length;
+    }
+
+    return { normalCount, totalOvens: ovenList.length, todayAlerts, maintCount, normalRate };
+  }, [ovenList, maintenanceData?.alertEvents]);
 
   return (
     <div className="space-y-5">
@@ -140,19 +254,52 @@ export default function L04Maintenance() {
       </div>
 
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-        <Kpi label="가동 중 건조로" value={`${ovenList.filter((o) => o.status !== "CRIT").length}/${ovenList.length}`} sub="정상+경고" tone="ok" Icon={Flame} />
-        <Kpi label="금일 이상 이벤트" value={`${crit + warn}건`} sub={`HIGH ${crit} · MED ${warn}`} tone="warn" Icon={AlertTriangle} />
-        <Kpi label="정비 필요 건조로" value={`${crit}대`} sub="maintenance_required='Y'" tone="crit" Icon={Gauge} />
-        <Kpi label="온도 정상 비율" value="94.7%" sub="Zone 1~4 복합" tone="info" Icon={Thermometer} />
+        <Kpi
+          label="가동 중 건조로"
+          value={`${kpiVals.normalCount}/${kpiVals.totalOvens}`}
+          sub={`정상 ${kpiVals.normalCount}대`}
+          tone="ok"
+          Icon={Flame}
+        />
+        <Kpi
+          label="금일 이상 이벤트"
+          value={`${kpiVals.todayAlerts}건`}
+          sub="HIGH + MEDIUM"
+          tone="warn"
+          Icon={AlertTriangle}
+        />
+        <Kpi
+          label="정비 필요 건조로"
+          value={`${kpiVals.maintCount}대`}
+          sub="maintenance_required='Y'"
+          tone="crit"
+          Icon={Gauge}
+        />
+        <Kpi
+          label="온도 정상 비율"
+          value={`${kpiVals.normalRate.toFixed(1)}%`}
+          sub="anomaly_type=NORMAL"
+          tone="info"
+          Icon={Thermometer}
+        />
       </div>
 
       <Panel title="건조로 13개 상태" desc="색상 배지 — 클릭 시 해당 건조로 상세">
         <div className="grid gap-2 grid-cols-2 md:grid-cols-4 xl:grid-cols-7">
           {ovenList.map((o) => {
-            const tone = o.status === "OK" ? "border-emerald-400/30 bg-emerald-500/10" : o.status === "WARN" ? "border-amber-400/30 bg-amber-400/10" : "border-rose-400/40 bg-rose-500/15";
+            const tone =
+              o.status === "OK"
+                ? "border-emerald-400/30 bg-emerald-500/10"
+                : o.status === "WARN"
+                  ? "border-amber-400/30 bg-amber-400/10"
+                  : "border-rose-400/40 bg-rose-500/15";
             const dot = o.status === "OK" ? "bg-emerald-400" : o.status === "WARN" ? "bg-amber-400" : "bg-rose-400";
             return (
-              <button key={o.id} onClick={() => setSel(o.id)} className={`rounded-xl border p-3 text-left transition hover:scale-[1.02] ${tone} ${sel === o.id ? "ring-2 ring-primary/50" : ""}`}>
+              <button
+                key={o.id}
+                onClick={() => setSel(o.id)}
+                className={`rounded-xl border p-3 text-left transition hover:scale-[1.02] ${tone} ${sel === o.id ? "ring-2 ring-primary/50" : ""}`}
+              >
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs text-foreground">{o.id}</span>
                   <span className={`h-2 w-2 rounded-full ${dot}`} />
@@ -166,7 +313,7 @@ export default function L04Maintenance() {
       </Panel>
 
       <div className="grid gap-5 xl:grid-cols-2">
-        <Panel title={`${sel} · Zone 1~4 온도 프로파일`} desc="24시간 영역 차트">
+        <Panel title={`${sel} · Zone 1~4 온도 프로파일`} desc="영역 차트">
           <div className="h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={tempProfile}>
@@ -183,16 +330,18 @@ export default function L04Maintenance() {
           </div>
         </Panel>
 
-        <Panel title="히터 전류 + 온도 실시간" desc="이상 시점 마커 @ t=25">
+        <Panel title="히터 전류 + 온도 실시간" desc={`이상 시점 마커 ${anomalyIndices.length}건`}>
           <div className="h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={heaterCurrent}>
+              <LineChart data={heaterData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.12)" />
                 <XAxis dataKey="s" tick={{ fill: "#cbd5e1", fontSize: 10 }} />
                 <YAxis yAxisId="l" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
                 <YAxis yAxisId="r" orientation="right" tick={{ fill: "#f59e0b", fontSize: 11 }} />
                 <Tooltip contentStyle={{ background: "#0b1220", border: "1px solid rgba(148,163,184,0.25)" }} />
-                <ReferenceLine x={25} yAxisId="l" stroke="#ef4444" strokeDasharray="3 3" label={{ value: "이상", fill: "#ef4444", fontSize: 10 }} />
+                {anomalyIndices.map((idx) => (
+                  <ReferenceLine key={idx} x={idx} yAxisId="l" stroke="#ef4444" strokeDasharray="3 3" label={idx === anomalyIndices[0] ? { value: "이상", fill: "#ef4444", fontSize: 10 } : undefined} />
+                ))}
                 <Line yAxisId="l" type="monotone" dataKey="temp" stroke="#06b6d4" strokeWidth={2} dot={false} />
                 <Line yAxisId="r" type="monotone" dataKey="current" stroke="#f59e0b" strokeWidth={2} dot={false} />
               </LineChart>
@@ -200,7 +349,7 @@ export default function L04Maintenance() {
           </div>
         </Panel>
 
-        <Panel title="이상 유형 분포" desc="도넛 — HEATER / SENSOR / FAN / CONVEYOR">
+        <Panel title="이상 유형 분포" desc="도넛 — events anomaly_type 집계">
           <div className="h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -244,18 +393,26 @@ export default function L04Maintenance() {
           <thead>
             <tr className="text-left text-muted-foreground">
               <th className="py-1">건조로</th>
-              <th>Zone</th>
-              <th>사유</th>
-              <th>기한</th>
+              <th>이상 유형</th>
+              <th>심각도</th>
+              <th>날짜</th>
             </tr>
           </thead>
           <tbody>
             {alertList.map((m, i) => (
               <tr key={i} className="border-t border-border/40 text-foreground">
                 <td className="py-2 font-mono">{m.oven}</td>
-                <td>{m.zone}</td>
-                <td>{m.reason}</td>
-                <td className="font-mono text-rose-300">{m.due}</td>
+                <td>{m.anomaly}</td>
+                <td>
+                  <span
+                    className={`rounded-md px-2 py-0.5 text-[10px] font-semibold ${
+                      m.severity === "HIGH" ? "bg-rose-500/30 text-rose-100" : "bg-amber-400/30 text-amber-100"
+                    }`}
+                  >
+                    {m.severity}
+                  </span>
+                </td>
+                <td className="font-mono text-muted-foreground">{m.date}</td>
               </tr>
             ))}
           </tbody>
