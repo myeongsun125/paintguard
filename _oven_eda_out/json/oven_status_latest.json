@@ -1,0 +1,122 @@
+{
+  "as_of": "2025-12-31",
+  "ovens": [
+    {
+      "oven_id": "OV-AS1",
+      "avg_temp": 92.62646511627908,
+      "avg_curr": 21.5666511627907,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-AS2",
+      "avg_temp": 92.87425581395348,
+      "avg_curr": 21.62397674418605,
+      "anomaly_count": 1,
+      "total_process": 43,
+      "anomaly_rate_pct": 2.33,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-AS3",
+      "avg_temp": 91.06413953488372,
+      "avg_curr": 21.578162790697675,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-GW1",
+      "avg_temp": 93.10360465116278,
+      "avg_curr": 21.59593023255814,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-GW2",
+      "avg_temp": 92.77946511627907,
+      "avg_curr": 21.602441860465117,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-HW1",
+      "avg_temp": 92.55241860465117,
+      "avg_curr": 21.582186046511627,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-HW2",
+      "avg_temp": 92.76106976744187,
+      "avg_curr": 21.624581395348837,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-HW3",
+      "avg_temp": 92.20411627906977,
+      "avg_curr": 21.641348837209303,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-UL1",
+      "avg_temp": 92.52120930232557,
+      "avg_curr": 21.607953488372093,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-UL2",
+      "avg_temp": 92.85013953488372,
+      "avg_curr": 21.592953488372093,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-UL3",
+      "avg_temp": 92.46539534883722,
+      "avg_curr": 21.61560465116279,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-UL4",
+      "avg_temp": 91.29327906976744,
+      "avg_curr": 21.588302325581395,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "oven_id": "OV-UL5",
+      "avg_temp": 92.48918604651162,
+      "avg_curr": 21.611534883720932,
+      "anomaly_count": 0,
+      "total_process": 43,
+      "anomaly_rate_pct": 0.0,
+      "status": "NORMAL"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "CIRCULATION_FAN": {
+    "avg_oven_temp": -0.0,
+    "avg_heater_curr": -0.0,
+    "std_oven_temp": 199.2,
+    "zone_gap": -0.3
+  },
+  "CONVEYOR_SPEED": {
+    "avg_oven_temp": -5.2,
+    "avg_heater_curr": 0.1,
+    "std_oven_temp": 157.0,
+    "zone_gap": 62.6
+  },
+  "HEATER_DEGRADATION": {
+    "avg_oven_temp": -12.5,
+    "avg_heater_curr": -33.2,
+    "std_oven_temp": 17.4,
+    "zone_gap": -0.1
+  },
+  "TEMP_SENSOR_ERR": {
+    "avg_oven_temp": 11.8,
+    "avg_heater_curr": -0.0,
+    "std_oven_temp": 245.6,
+    "zone_gap": 167.5
+  }
+}
