@@ -1,4 +1,5 @@
-import { Database } from "duckdb";
+import pkg from "duckdb";
+const { Database } = pkg;
 
 const CSV_PATH =
   process.env.INSPECTION_CSV_PATH ?? "/opt/paintguard-data/inspection_master.csv";
