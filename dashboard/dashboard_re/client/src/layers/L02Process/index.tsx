@@ -235,24 +235,45 @@ export default function L02Process() {
 
   const plantOverallStatus = worst(rateLevel(plantDetail.failRate), tempLevel(plantDetail.avgTemp), humidLevel(plantDetail.avgHumidity));
 
-  /* ── Shift comparison ── */
+  /* ── Shift comparison (선택 공장 기준) ── */
   const shiftCards = useMemo(() => {
     const shifts = ["A", "B", "C"] as const;
-    if (!shiftDefect) {
-      return shifts.map((s) => ({
-        shift: s,
-        total: s === "C" ? 176667 : s === "A" ? 1411316 : 1412017,
-        failCount: s === "C" ? 10631 : s === "A" ? 58146 : 53230,
-        rate: s === "C" ? 6.02 : s === "A" ? 4.12 : 3.77,
-      }));
+
+    // 1순위: lineShiftSummary (DuckDB) — 선택 공장 기준
+    if (lineShiftRows) {
+      return shifts.map((s) => {
+        const rows = lineShiftRows.filter(
+          (r) => String(r.plant_code) === selectedPlant && String(r.shift) === s,
+        );
+        const total = rows.reduce((sum, r) => sum + asNum(r.total), 0);
+        const fail = rows.reduce((sum, r) => sum + asNum(r.fail_count), 0);
+        return {
+          shift: s,
+          total,
+          failCount: fail,
+          rate: total > 0 ? (fail / total) * 100 : 0,
+        };
+      });
     }
-    return shifts.map((s) => {
-      const rows = shiftDefect.filter((r) => String(r.shift) === s);
-      const total = rows.reduce((sum, r) => sum + asNum(r.total), 0);
-      const fail = rows.reduce((sum, r) => sum + asNum(r.fail_count), 0);
-      return { shift: s, total, failCount: fail, rate: total > 0 ? (fail / total) * 100 : 0 };
-    });
-  }, [shiftDefect]);
+
+    // 2순위: shiftDefect (S3 집계) — 전체 공장 기준
+    if (shiftDefect) {
+      return shifts.map((s) => {
+        const rows = shiftDefect.filter((r) => String(r.shift) === s);
+        const total = rows.reduce((sum, r) => sum + asNum(r.total), 0);
+        const fail = rows.reduce((sum, r) => sum + asNum(r.fail_count), 0);
+        return { shift: s, total, failCount: fail, rate: total > 0 ? (fail / total) * 100 : 0 };
+      });
+    }
+
+    // 3순위: 샘플 폴백
+    return shifts.map((s) => ({
+      shift: s,
+      total: s === "C" ? 176667 : s === "A" ? 1411316 : 1412017,
+      failCount: s === "C" ? 10631 : s === "A" ? 58146 : 53230,
+      rate: s === "C" ? 6.02 : s === "A" ? 4.12 : 3.77,
+    }));
+  }, [lineShiftRows, shiftDefect, selectedPlant]);
 
   /* ── 영역 3: Line cards ── */
   const plantAvgTakt = useMemo(() => {
