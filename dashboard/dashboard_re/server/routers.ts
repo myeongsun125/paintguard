@@ -18,6 +18,7 @@ import {
   loadSnapshots,
   loadWorkOrders,
 } from "./s3Loader";
+import { getLineShiftSummary } from "./duckdbLoader";
 
 const imageAnalysisInput = z.object({
   fileName: z.string().min(1),
@@ -42,15 +43,17 @@ export const appRouter = router({
       return loadMesSampleData();
     }),
     processData: publicProcedure.query(async () => {
-      const [kpi, shift, env] = await Promise.allSettled([
+      const [kpi, shift, env, lineM] = await Promise.allSettled([
         loadKpiDaily(),
         loadShiftDefectRate(),
         loadEnvBins(),
+        loadLineMonthly(),
       ]);
       return {
         kpiDaily: kpi.status === "fulfilled" ? kpi.value : null,
         shiftDefectRate: shift.status === "fulfilled" ? shift.value : null,
         envBins: env.status === "fulfilled" ? env.value : null,
+        lineMonthly: lineM.status === "fulfilled" ? lineM.value : null,
         isLive: IS_PROD,
       };
     }),
@@ -99,6 +102,14 @@ export const appRouter = router({
     defectList: publicProcedure.query(async () => {
       const data = await loadDefectList();
       return { data, isLive: IS_PROD };
+    }),
+    lineShiftSummary: publicProcedure.query(async () => {
+      try {
+        const data = await getLineShiftSummary();
+        return { data, isLive: Boolean(data) };
+      } catch {
+        return { data: null, isLive: false };
+      }
     }),
     analyzeQualityImage: publicProcedure
       .input(imageAnalysisInput)
