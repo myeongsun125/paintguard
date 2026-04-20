@@ -41,9 +41,9 @@ export default function Home() {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-start gap-3">
           <p className="text-[11px] uppercase tracking-[0.34em] text-primary">PaintGuard · MES Overview</p>
-          <h1 className="text-3xl font-semibold text-foreground">완성차 제조 8단계 공정 플로우</h1>
+          <h1 className="text-3xl font-semibold text-foreground">완성차 제조 공정 플로우</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            현대자동차그룹 완성차 제조공정의 8개 단계를 한눈에 조망합니다. 현재는 <span className="text-primary font-medium">도장(PaintGuard)</span> 공정의 실시간 모니터링만 제공하며, 나머지 공정은 데이터 확보 후 순차 공개될 예정입니다.
+            현대자동차그룹 완성차 제조공정 단계를 한눈에 조망합니다. 현재는 <span className="text-primary font-medium">도장(PaintGuard)</span> 공정의 실시간 모니터링만 제공하며, 나머지 공정은 데이터 확보 후 순차 공개될 예정입니다.
           </p>
         </div>
 

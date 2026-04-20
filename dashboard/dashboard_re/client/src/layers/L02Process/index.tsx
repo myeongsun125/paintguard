@@ -1,4 +1,5 @@
 import { trpc } from "@/lib/trpc";
+import { getCurrentSimTime } from "@/lib/simulationClock";
 import { useState, useMemo, useEffect } from "react";
 import {
   Bar,
@@ -175,6 +176,13 @@ export default function L02Process() {
     () => (isS3Array(lineShiftData?.data) ? (lineShiftData!.data as Record<string, unknown>[]) : null),
     [lineShiftData?.data],
   );
+
+  // [DEBUG] lineShiftSummary 데이터 확인용 임시 로그
+  useEffect(() => {
+    console.log("lineShiftSummary:", lineShiftData);
+    console.log("lineShiftRows:", lineShiftRows);
+  }, [lineShiftData, lineShiftRows]);
+
   const lineShiftMap = useMemo(() => {
     const m = new Map<string, { total: number; fail: number }>();
     if (!lineShiftRows) return m;
@@ -283,8 +291,8 @@ export default function L02Process() {
     return rows.reduce((s, r) => s + asNum(r.avg_takt), 0) / rows.length;
   }, [kpiDaily, selectedPlant]);
 
-  /* ── simulated current shift ── */
-  const simHour = (new Date().getHours() + Math.floor(clockTick / 10)) % 24;
+  /* ── simulated current shift (clockTick state 변경이 재렌더 트리거) ── */
+  const simHour = getCurrentSimTime().getHours();
   const currentShift = hourToShift(simHour);
 
   const lineCards = useMemo(() => {
@@ -353,6 +361,114 @@ export default function L02Process() {
           );
         })}
       </div>
+
+      {/* ─── 영역 3: 라인별 Child Box ─── */}
+      <section className="space-y-3">
+        <div className="flex items-center gap-2">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-primary">Line Status</p>
+          <h3 className="text-lg font-semibold text-foreground">{selectedPlant} 라인별 현황</h3>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {lineCards.map((line) => {
+            const sl = SL[line.status];
+            const chartData = line.sparkline.map((v, i) => ({ t: i * 5, r: Number(v.toFixed(2)) }));
+            const currentHit = lineShiftMap.get(`${selectedPlant}-${line.lineCode}-${currentShift}`);
+            return (
+              <article key={line.lineCode} className="rounded-[22px] border border-white/8 bg-card/80 p-5">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-lg font-semibold text-foreground">{line.lineCode}</h4>
+                  <span
+                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${sl.bg} ${sl.border} ${sl.text}`}
+                  >
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ background: sl.color, boxShadow: `0 0 6px ${sl.color}` }}
+                    />
+                    {line.status === "normal" ? "가동중" : line.status === "warning" ? "주의" : "위험"}
+                  </span>
+                </div>
+
+                <p className="mt-3 font-mono text-3xl font-bold" style={{ color: SL[rateLevel(line.failRate)].color }}>
+                  {line.failRate.toFixed(2)}
+                  <span className="ml-0.5 text-sm font-normal text-muted-foreground">%</span>
+                </p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">불량률</p>
+
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  <div className="rounded-lg border border-white/6 bg-white/[0.02] p-2">
+                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Throughput</p>
+                    <p className="mt-1 font-mono text-sm text-foreground">
+                      {line.throughput}
+                      <span className="text-[10px] text-muted-foreground">/h</span>
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-white/6 bg-white/[0.02] p-2">
+                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Takt</p>
+                    <p className="mt-1 font-mono text-sm text-foreground">
+                      {line.takt.toFixed(2)}
+                      <span className="text-[10px] text-muted-foreground">s</span>
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-white/6 bg-white/[0.02] p-2">
+                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Queue</p>
+                    <p className="mt-1 font-mono text-sm" style={{ color: SL[queueLevel(line.queue)].color }}>
+                      {line.queue}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 1h 불량률 추이 — Recharts LineChart with axes */}
+                <div className="mt-3">
+                  <p className="text-[9px] uppercase tracking-wider text-muted-foreground">1h 불량률 추이</p>
+                  <div className="h-16 mt-1">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={chartData} margin={{ top: 2, right: 4, bottom: 0, left: -12 }}>
+                        <XAxis
+                          dataKey="t"
+                          tick={{ fill: "#64748b", fontSize: 8 }}
+                          tickLine={false}
+                          axisLine={false}
+                          tickFormatter={(v: number) => `${v}m`}
+                          interval="preserveStartEnd"
+                        />
+                        <YAxis
+                          tick={{ fill: "#64748b", fontSize: 8 }}
+                          tickLine={false}
+                          axisLine={false}
+                          width={30}
+                          tickFormatter={(v: number) => `${v.toFixed(1)}`}
+                          domain={["dataMin - 0.5", "dataMax + 0.5"]}
+                        />
+                        <Line type="monotone" dataKey="r" stroke={sl.color} strokeWidth={2} dot={false} isAnimationActive={false} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* 현재 교대조 누적 */}
+                {currentHit && (
+                  <div className="mt-3 rounded-lg border border-white/6 bg-white/[0.02] p-2.5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                        현재 <span className="font-mono text-primary">{currentShift}</span>조
+                      </p>
+                      <p className="font-mono text-[10px] text-muted-foreground">{simHour}시</p>
+                    </div>
+                    <p className="mt-1 font-mono text-sm text-foreground">
+                      누적 검사 {currentHit.total.toLocaleString()}
+                      <span className="ml-1 text-[10px] text-muted-foreground">건</span>
+                      <span className="ml-2 text-red-300">불량 {currentHit.fail.toLocaleString()}건</span>
+                    </p>
+                    {currentShift === "C" && (
+                      <p className="mt-1 text-[9px] text-amber-300">※ 22시대만 집계</p>
+                    )}
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </div>
+      </section>
 
       {/* ─── 영역 2: 선택 공장 Parent Box ─── */}
       <section className="rounded-[28px] border border-border/60 bg-card/85 p-6 shadow-[0_0_50px_rgba(8,15,30,0.25)]">
@@ -460,114 +576,6 @@ export default function L02Process() {
                 )}
                 {s.shift === "C" && <p className="mt-2 text-[10px] text-amber-300">※ 22시대만 집계</p>}
               </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ─── 영역 3: 라인별 Child Box ─── */}
-      <section className="space-y-3">
-        <div className="flex items-center gap-2">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-primary">Line Status</p>
-          <h3 className="text-lg font-semibold text-foreground">{selectedPlant} 라인별 현황</h3>
-        </div>
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {lineCards.map((line) => {
-            const sl = SL[line.status];
-            const chartData = line.sparkline.map((v, i) => ({ t: i * 5, r: Number(v.toFixed(2)) }));
-            const currentHit = lineShiftMap.get(`${selectedPlant}-${line.lineCode}-${currentShift}`);
-            return (
-              <article key={line.lineCode} className="rounded-[22px] border border-white/8 bg-card/80 p-5">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-lg font-semibold text-foreground">{line.lineCode}</h4>
-                  <span
-                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${sl.bg} ${sl.border} ${sl.text}`}
-                  >
-                    <span
-                      className="h-2 w-2 rounded-full"
-                      style={{ background: sl.color, boxShadow: `0 0 6px ${sl.color}` }}
-                    />
-                    {line.status === "normal" ? "가동중" : line.status === "warning" ? "주의" : "위험"}
-                  </span>
-                </div>
-
-                <p className="mt-3 font-mono text-3xl font-bold" style={{ color: SL[rateLevel(line.failRate)].color }}>
-                  {line.failRate.toFixed(2)}
-                  <span className="ml-0.5 text-sm font-normal text-muted-foreground">%</span>
-                </p>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">불량률</p>
-
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  <div className="rounded-lg border border-white/6 bg-white/[0.02] p-2">
-                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Throughput</p>
-                    <p className="mt-1 font-mono text-sm text-foreground">
-                      {line.throughput}
-                      <span className="text-[10px] text-muted-foreground">/h</span>
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-white/6 bg-white/[0.02] p-2">
-                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Takt</p>
-                    <p className="mt-1 font-mono text-sm text-foreground">
-                      {line.takt.toFixed(2)}
-                      <span className="text-[10px] text-muted-foreground">s</span>
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-white/6 bg-white/[0.02] p-2">
-                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">Queue</p>
-                    <p className="mt-1 font-mono text-sm" style={{ color: SL[queueLevel(line.queue)].color }}>
-                      {line.queue}
-                    </p>
-                  </div>
-                </div>
-
-                {/* 1h 불량률 추이 — Recharts LineChart with axes */}
-                <div className="mt-3">
-                  <p className="text-[9px] uppercase tracking-wider text-muted-foreground">1h 불량률 추이</p>
-                  <div className="h-16 mt-1">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={chartData} margin={{ top: 2, right: 4, bottom: 0, left: -12 }}>
-                        <XAxis
-                          dataKey="t"
-                          tick={{ fill: "#64748b", fontSize: 8 }}
-                          tickLine={false}
-                          axisLine={false}
-                          tickFormatter={(v: number) => `${v}m`}
-                          interval="preserveStartEnd"
-                        />
-                        <YAxis
-                          tick={{ fill: "#64748b", fontSize: 8 }}
-                          tickLine={false}
-                          axisLine={false}
-                          width={30}
-                          tickFormatter={(v: number) => `${v.toFixed(1)}`}
-                          domain={["dataMin - 0.5", "dataMax + 0.5"]}
-                        />
-                        <Line type="monotone" dataKey="r" stroke={sl.color} strokeWidth={2} dot={false} isAnimationActive={false} />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-
-                {/* 현재 교대조 누적 */}
-                {currentHit && (
-                  <div className="mt-3 rounded-lg border border-white/6 bg-white/[0.02] p-2.5">
-                    <div className="flex items-center justify-between">
-                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                        현재 <span className="font-mono text-primary">{currentShift}</span>조
-                      </p>
-                      <p className="font-mono text-[10px] text-muted-foreground">{simHour}시</p>
-                    </div>
-                    <p className="mt-1 font-mono text-sm text-foreground">
-                      누적 검사 {currentHit.total.toLocaleString()}
-                      <span className="ml-1 text-[10px] text-muted-foreground">건</span>
-                      <span className="ml-2 text-red-300">불량 {currentHit.fail.toLocaleString()}건</span>
-                    </p>
-                    {currentShift === "C" && (
-                      <p className="mt-1 text-[9px] text-amber-300">※ 22시대만 집계</p>
-                    )}
-                  </div>
-                )}
-              </article>
             );
           })}
         </div>

@@ -94,7 +94,7 @@ function LayoutFrame({ children }: { children: ReactNode }) {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted/60 text-muted-foreground">
                     <HomeIcon className="h-4 w-4" />
                   </div>
-                  <div className="min-w-0 flex-1 text-sm text-sidebar-foreground">홈 · 8단계 공정</div>
+                  <div className="min-w-0 flex-1 text-sm text-sidebar-foreground">홈 · 공정 플로우</div>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
