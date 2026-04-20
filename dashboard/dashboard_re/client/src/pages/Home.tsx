@@ -26,7 +26,7 @@ const steps: Step[] = [
   { key: "inbound", title: "입고", desc: "자재/부품 입고", icon: Boxes, active: false },
   { key: "press", title: "프레스", desc: "차체 성형", icon: Hammer, active: false },
   { key: "weld", title: "용접", desc: "차체 조립", icon: Cog, active: false },
-  { key: "paint", title: "도장", desc: "PaintGuard 모니터링", icon: SprayCan, active: true, path: "/paint" },
+  { key: "paint", title: "도장", desc: "PaintGuard 모니터링", icon: SprayCan, active: true, path: "/paint/l02" },
   { key: "assy", title: "조립", desc: "내외장 조립", icon: Factory, active: false },
   { key: "pt", title: "파워트레인", desc: "동력계 탑재", icon: Cog, active: false },
   { key: "inspect", title: "검사", desc: "완성차 검사", icon: ClipboardCheck, active: false },
@@ -101,7 +101,7 @@ export default function Home() {
 
         <div className="mt-10 flex flex-wrap gap-3">
           <button
-            onClick={() => setLocation("/paint")}
+            onClick={() => setLocation("/paint/l02")}
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-[0_0_30px_rgba(45,212,191,0.35)] hover:bg-primary/90"
           >
             <PackageCheck className="h-4 w-4" />
